@@ -384,13 +384,38 @@
         </div>
     </div>
 
-    <script type="module">
+    <script>
         let currentStep = 1;
         let selectedIndustry = null;
         let selectedTemplate = null;
         let websiteData = { companyName: '', companyDesc: '', companyPhone: '', companyEmail: '', companyAddress: '', logo: null, banners: [null, null, null] };
         let recentWebsites = [];
         let generatedHtml = '';
+
+        // Template configuration
+        const templates = {
+            industrial: {
+                id: 'industrial',
+                name: '工业制造模板',
+                description: '专业的工业制造企业官网模板',
+                image: 'https://images.unsplash.com/photo-1565043589221-1a51f3f28067?w=600&h=400&fit=crop',
+                file: 'industrial.html'
+            },
+            tech: {
+                id: 'tech',
+                name: '科技互联网模板',
+                description: '现代化科技企业官网模板',
+                image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop',
+                file: 'tech.html'
+            },
+            business: {
+                id: 'business',
+                name: '商贸服务模板',
+                description: '专业的商贸服务企业官网模板',
+                image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop',
+                file: 'business.html'
+            }
+        };
 
         function showPage(pageId) {
             document.querySelectorAll('[id$="Page"]').forEach(page => { page.classList.add('hidden'); });
@@ -535,13 +560,8 @@
         function renderTemplates() {
             const templateGrid = document.getElementById('templateGrid');
             templateGrid.innerHTML = '';
-            const templates = {
-                industrial: [{ id: 'industrial1', name: '工业制造模板', description: '专业的工业制造企业官网模板', image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text-to-image?prompt=modern%20industrial%20factory%20website%20design%20template%20professional%20blue%20theme&image-size=landscape-16-9' }],
-                tech: [{ id: 'tech1', name: '科技互联网模板', description: '现代化科技企业官网模板', image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text-to-image?prompt=modern%20tech%20startup%20website%20template%20purple%20blue%20theme%20professional&image-size=landscape-16-9' }],
-                business: [{ id: 'business1', name: '商贸服务模板', description: '专业的商贸服务企业官网模板', image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text-to-image?prompt=business%20service%20company%20website%20template%20green%20theme%20professional&image-size=landscape-16-9' }]
-            };
-            const industryTemplates = templates[selectedIndustry] || templates.industrial;
-            industryTemplates.forEach(template => {
+            const template = templates[selectedIndustry];
+            if (template) {
                 const templateCard = document.createElement('div');
                 templateCard.className = 'template-card bg-white border-2 border-gray-200 rounded-xl overflow-hidden cursor-pointer';
                 templateCard.dataset.templateId = template.id;
@@ -570,7 +590,7 @@
                     document.getElementById('templateModal').classList.remove('hidden');
                 });
                 templateGrid.appendChild(templateCard);
-            });
+            }
         }
 
         document.getElementById('closeModal').addEventListener('click', function() { document.getElementById('templateModal').classList.add('hidden'); });
@@ -579,26 +599,30 @@
 
         document.getElementById('toStep4').addEventListener('click', function() { showStep(4); });
 
-        document.getElementById('generateBtn').addEventListener('click', function() {
+        document.getElementById('generateBtn').addEventListener('click', async function() {
             document.getElementById('generateBtn').classList.add('hidden');
             document.getElementById('loadingSection').classList.remove('hidden');
             const progressBar = document.getElementById('progressBar');
             progressBar.classList.add('progress-bar');
             progressBar.style.width = '100%';
-            setTimeout(() => { generateWebsite(); }, 3000);
+            await generateWebsite();
         });
 
-        function generateWebsite() {
-            let templateHtml = '';
-            if (selectedIndustry === 'industrial') { templateHtml = industrialTemplateHtml; }
-            else if (selectedIndustry === 'tech') { templateHtml = techTemplateHtml; }
-            else { templateHtml = businessTemplateHtml; }
-            generatedHtml = fillTemplate(templateHtml);
-            const newWebsite = { id: Date.now(), name: websiteData.companyName || '未命名网站', industry: selectedIndustry, template: selectedTemplate, createdAt: new Date().toISOString(), html: generatedHtml };
-            recentWebsites.unshift(newWebsite);
-            localStorage.setItem('websites', JSON.stringify(recentWebsites));
-            showPage('previewPage');
-            showPreview(generatedHtml);
+        async function generateWebsite() {
+            try {
+                const template = templates[selectedIndustry];
+                const response = await fetch(template.file);
+                let templateHtml = await response.text();
+                generatedHtml = fillTemplate(templateHtml);
+                const newWebsite = { id: Date.now(), name: websiteData.companyName || '未命名网站', industry: selectedIndustry, template: selectedTemplate, createdAt: new Date().toISOString(), html: generatedHtml };
+                recentWebsites.unshift(newWebsite);
+                localStorage.setItem('websites', JSON.stringify(recentWebsites));
+                showPage('previewPage');
+                showPreview(generatedHtml);
+            } catch (error) {
+                console.error('Error generating website:', error);
+                alert('生成网站时出错，请重试');
+            }
         }
 
         function fillTemplate(html) {
@@ -608,6 +632,8 @@
             const companyPhone = websiteData.companyPhone || '400-000-0000';
             const companyEmail = websiteData.companyEmail || 'contact@example.com';
             const companyAddress = websiteData.companyAddress || '您的企业地址';
+
+            // Replace text placeholders
             filled = filled.replace(/企业名称/g, companyName);
             filled = filled.replace(/商贸服务/g, companyName);
             filled = filled.replace(/TECHNOLOGY/g, companyName);
@@ -621,6 +647,8 @@
             filled = filled.replace(/企业邮箱/g, companyEmail);
             filled = filled.replace(/上海市浦东新区张江高科技园区/g, companyAddress);
             filled = filled.replace(/企业地址/g, companyAddress);
+
+            // Replace logo
             if (websiteData.logo) {
                 if (selectedIndustry === 'industrial') {
                     filled = filled.replace(/<div class="text-2xl font-bold text-white transition-colors duration-300 nav-logo">企业名称<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-10 w-auto nav-logo">`);
@@ -633,6 +661,8 @@
                     filled = filled.replace(/<div class="text-2xl font-bold mb-4 text-\[#00B42A\]">商贸服务<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-12 w-auto mb-4">`);
                 }
             }
+
+            // Replace banner
             const bannerUrl = websiteData.banners[0] || websiteData.banners[1] || websiteData.banners[2];
             if (bannerUrl) {
                 if (selectedIndustry === 'industrial') {
@@ -643,6 +673,7 @@
                     filled = filled.replace(/<div class="relative min-h-\[600px\] flex items-center">[\s\S]*?<div class="absolute inset-0">[\s\S]*?<\/div>/g, `<div class="relative min-h-[600px] flex items-center"><div class="absolute inset-0 bg-cover bg-center" style="background-image: url('${bannerUrl}')"></div><div class="absolute inset-0 bg-black/60"></div>`);
                 }
             }
+
             return filled;
         }
 
@@ -725,79 +756,5 @@
             }
         }
     </script>
-
-    <script>
-        const industrialTemplateHtml = `<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>企业名称</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { font-family: 'Noto Sans SC', sans-serif; scroll-behavior: smooth; }
-        .hero-gradient { background: linear-gradient(135deg, #0F52BA 0%, #1a3a6e 100%); }
-        .btn-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .btn-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
-        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
-        .nav-scrolled { background: rgba(255,255,255,0.98); backdrop-filter: blur(10px); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-    </style>
-</head>
-<body class="bg-gray-50">
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center">
-                    <div class="text-2xl font-bold text-white transition-colors duration-300 nav-logo">企业名称</div>
-                </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="nav-link text-white/90 hover:text-white font-medium transition-colors">首页</a>
-                    <a href="#about" class="nav-link text-white/90 hover:text-white font-medium transition-colors">关于我们</a>
-                    <a href="#products" class="nav-link text-white/90 hover:text-white font-medium transition-colors">产品中心</a>
-                    <a href="#contact" class="btn-hover bg-[#FF7D00] text-white px-6 py-2.5 rounded-lg font-semibold">联系我们</a>
-                </div>
-                <div class="md:hidden">
-                    <button id="menuBtn" class="text-white p-2 nav-menu-btn">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div id="mobileMenu" class="md:hidden hidden bg-white border-t">
-            <div class="px-4 py-4 space-y-3">
-                <a href="#home" class="block text-gray-800 hover:text-[#0F52BA] py-2 font-medium">首页</a>
-                <a href="#about" class="block text-gray-800 hover:text-[#0F52BA] py-2 font-medium">关于我们</a>
-                <a href="#products" class="block text-gray-800 hover:text-[#0F52BA] py-2 font-medium">产品中心</a>
-                <a href="#contact" class="btn-hover block bg-[#FF7D00] text-white px-6 py-2.5 rounded-lg font-semibold text-center mt-4">联系我们</a>
-            </div>
-        </div>
-    </nav>
-    <section id="home" class="pt-20">
-        <div class="hero-gradient min-h-[700px] flex items-center">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center text-white relative z-10">
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">专业制造 品质为先</h1>
-                <p class="text-xl md:text-2xl text-white/90 mb-10 max-w-3xl mx-auto">致力于为客户提供高品质的工业制造产品和解决方案</p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="#products" class="btn-hover bg-[#FF7D00] text-white px-8 py-4 rounded-lg font-semibold text-lg">查看产品</a>
-                    <a href="#contact" class="btn-hover bg-white/10 border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white/20">联系我们</a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section id="about" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4">关于我们</h2>
-            <p class="text-gray-600 text-center mb-16 max-w-3xl mx-auto text-lg">致力于为客户提供高品质的工业制造产品和解决方案</p>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="text-center p-8">
-                    <div class="w-16 h-16 mx-auto bg-[#0F52BA]/10 rounded-xl flex items-center justify-center mb-6">
-                        <svg class="w-8 h-8 text-[#0F52BA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">创新技术</h3>
-                    <p
+</body>
+</html>
