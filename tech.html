@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用科技驱动企业数字化转型 - 科技互联网</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Noto Sans SC', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .btn-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .nav-scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .solution-tab.active {
+            background: #667eea;
+            color: white;
+        }
+        .solution-content {
+            display: none;
+        }
+        .solution-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 导航栏 -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold text-white transition-colors duration-300 nav-logo">TECHNOLOGY</div>
+                </div>
+                
+                <!-- 桌面导航菜单 -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-white/90 hover:text-white font-medium transition-colors">首页</a>
+                    <a href="#services" class="nav-link text-white/90 hover:text-white font-medium transition-colors">我们的服务</a>
+                    <a href="#solutions" class="nav-link text-white/90 hover:text-white font-medium transition-colors">解决方案</a>
+                    <a href="#team" class="nav-link text-white/90 hover:text-white font-medium transition-colors">团队介绍</a>
+                    <a href="#testimonials" class="nav-link text-white/90 hover:text-white font-medium transition-colors">客户评价</a>
+                    <a href="#contact" class="btn-hover bg-white text-[#667eea] px-6 py-2.5 rounded-full font-semibold">免费咨询</a>
+                </div>
+                
+                <!-- 移动端菜单按钮 -->
+                <div class="md:hidden">
+                    <button id="menu-btn" class="text-white p-2 nav-menu-btn">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#home" class="block text-gray-800 hover:text-[#667eea] py-2 font-medium">首页</a>
+                <a href="#services" class="block text-gray-800 hover:text-[#667eea] py-2 font-medium">我们的服务</a>
+                <a href="#solutions" class="block text-gray-800 hover:text-[#667eea] py-2 font-medium">解决方案</a>
+                <a href="#team" class="block text-gray-800 hover:text-[#667eea] py-2 font-medium">团队介绍</a>
+                <a href="#testimonials" class="block text-gray-800 hover:text-[#667eea] py-2 font-medium">客户评价</a>
+                <a href="#contact" class="btn-hover block bg-[#667eea] text-white px-6 py-2.5 rounded-full font-semibold text-center mt-4">免费咨询</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区 -->
+    <section id="home" class="hero-gradient min-h-screen flex items-center justify-center">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                用科技驱动企业数字化转型
+            </h1>
+            <p class="text-xl md:text-2xl text-white/90 mb-10 max-w-3xl mx-auto">
+                提供一站式软件开发和云服务解决方案
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#contact" class="btn-hover bg-white text-[#667eea] px-8 py-4 rounded-full font-semibold text-lg">
+                    立即咨询
+                </a>
+                <a href="#testimonials" class="btn-hover bg-white/10 border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/20">
+                    查看案例
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 我们的服务 -->
+    <section id="services" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4">我们能为你做什么</h2>
+            <p class="text-gray-600 text-center mb-16 max-w-2xl mx-auto">从软件开发到云端部署，我们提供全方位的技术服务</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 服务卡片1 -->
+                <div class="bg-gray-50 p-8 rounded-xl shadow-sm card-hover">
+                    <div class="w-14 h-14 bg-[#667eea]/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-[#667eea]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">软件开发</h3>
+                    <p class="text-gray-600">定制化软件开发服务，从需求分析到产品上线，全程专业支持。</p>
+                </div>
+                
+                <!-- 服务卡片2 -->
+                <div class="bg-gray-50 p-8 rounded-xl shadow-sm card-hover">
+                    <div class="w-14 h-14 bg-[#f093fb]/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-[#764ba2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">云服务</h3>
+                    <p class="text-gray-600">提供安全、稳定、高效的云端服务，助力企业快速上云。</p>
+                </div>
+                
+                <!-- 服务卡片3 -->
+                <div class="bg-gray-50 p-8 rounded-xl shadow-sm card-hover">
+                    <div class="w-14 h-14 bg-[#667eea]/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-[#667eea]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">数据分析</h3>
+                    <p class="text-gray-600">利用先进的数据分析技术，帮助企业挖掘数据价值，优化决策。</p>
+                </div>
+                
+                <!-- 服务卡片4 -->
+                <div class="bg-gray-50 p-8 rounded-xl shadow-sm card-hover">
+                    <div class="w-14 h-14 bg-[#f093fb]/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-[#764ba2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">移动应用</h3>
+                    <p class="text-gray-600">iOS和Android原生应用开发，打造出色的移动端用户体验。</p>
+                </div>
+                
+                <!-- 服务卡片5 -->
+                <div class="bg-gray-50 p-8 rounded-xl shadow-sm card-hover">
+                    <div class="w-14 h-14 bg-[#667eea]/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-[#667eea]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">AI智能</h3>
+                    <p class="text-gray-600">将人工智能技术融入产品，提升产品智能化水平。</p>
+                </div>
+                
+                <!-- 服务卡片6 -->
+                <div class="bg-gray-50 p-8 rounded-xl shadow-sm card-hover">
+                    <div class="w-14 h-14 bg-[#f093fb]/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-[#764ba2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">网络安全</h3>
+                    <p class="text-gray-600">提供专业的网络安全解决方案，保障企业数据安全。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 解决方案 -->
+    <section id="solutions" class="py-24 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4">行业解决方案</h2>
+            <p class="text-gray-600 text-center mb-16 max-w-2xl mx-auto">针对不同行业特点，提供定制化解决方案</p>
+            <div class="grid md:grid-cols-5 gap-8">
+                <!-- 左侧标签 -->
+                <div class="md:col-span-2 space-y-4">
+                    <button class="solution-tab active w-full text-left px-6 py-4 rounded-xl font-semibold transition-all" data-tab="finance">
+                        金融科技
+                    </button>
+                    <button class="solution-tab w-full text-left px-6 py-4 rounded-xl font-semibold bg-white text-gray-700 hover:bg-gray-50 transition-all" data-tab="ecommerce">
+                        电商零售
+                    </button>
+                    <button class="solution-tab w-full text-left px-6 py-4 rounded-xl font-semibold bg-white text-gray-700 hover:bg-gray-50 transition-all" data-tab="healthcare">
+                        医疗健康
+                    </button>
+                </div>
+                <!-- 右侧内容 -->
+                <div class="md:col-span-3">
+                    <!-- 金融科技 -->
+                    <div class="solution-content active" id="finance">
+                        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                            <div class="aspect-video bg-gradient-to-br from-[#667eea] to-[#764ba2]">
+                                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=modern%20fintech%20financial%20technology%20digital%20banking%20interface%20clean%20design&image_size=landscape_16_9" alt="金融科技" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-8">
+                                <h3 class="text-2xl font-bold text-gray-900 mb-4">金融科技解决方案</h3>
+                                <p class="text-gray-600 mb-4">为金融机构提供安全、高效的数字化解决方案，包括智能风控、支付系统、资产管理等。利用区块链和AI技术，提升金融服务效率和安全性。</p>
+                                <ul class="space-y-2 text-gray-600">
+                                    <li class="flex items-start">
+                                        <svg class="w-5 h-5 text-[#667eea] mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        智能风控系统
+                                    </li>
+                                    <li class="flex items-start">
+                                        <svg class="w-5 h-5 text-[#667eea] mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        移动支付解决方案
+                                    </li>
+                                    <li class="flex items-start">
+                                        <svg class="w-5 h-5 text-[#667eea] mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        区块链技术应用
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 电商零售 -->
+                    <div class="solution-content" id="ecommerce">
+                        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                            <div class="aspect-video bg-gradient-to-br from-[#667eea] to-[#764ba2]">
+                                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=ecommerce%20shopping%20online%20store%20retail%20technology%20clean%20modern&image_size=landscape_16_9" alt="电商零售" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-8">
+                                <h3 class="text-2xl font-bold text-gray-900 mb-4">电商零售解决方案</h3>
+                                <p class="text-gray-600 mb-4">打造全渠道电商平台，提供从前端商城到后端管理的一体化解决方案。支持多端同步、智能推荐、数据分析等功能。</p>
+                                <ul class="space-y-2 text-gray-600">
+                                    <li class="flex items-start">
+                                        <svg class="w-5 h-5 text-[#667eea] mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        全渠道电商平台
+                                    </li>
+                                    <li class="flex items-start">
+                                        <svg class="w-5 h-5 text-[#667eea] mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        智能推荐系统
+                                    </li>
+                                    <li class="flex items-start">
+                                        <svg class="w-5 h-5 text-[#667eea] mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        供应链管理系统
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 医疗健康 -->
+                    <div class="solution-content" id="healthcare">
+                        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                            <div class="aspect-video bg-gradient-to-br from-[#667eea] to-[#764ba2]">
+                                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=healthcare%20medical%20technology%20hospital%20digital%20health%20clean%20design&image_size=landscape_16_9" alt="医疗健康" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-8">
+                                <h3 class="text-2xl font-bold text-gray-900 mb-4">医疗健康解决方案</h3>
+                                <p class="text-gray-600 mb-4">助力医疗行业数字化转型，提供电子病历、远程问诊、健康管理等一站式解决方案，提升医疗服务效率。</p>
+                                <ul class="space-y-2 text-gray-600">
+                                    <li class="flex items-start">
+                                        <svg class="w-5 h-5 text-[#667eea] mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        电子病历系统
+                                    </li>
+                                    <li class="flex items-start">
+                                        <svg class="w-5 h-5 text-[#667eea] mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        远程医疗平台
+                                    </li>
+                                    <li class="flex items-start">
+                                        <svg class="w-5 h-5 text-[#667eea] mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        智能诊断辅助
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 团队介绍 -->
+    <section id="team" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4">我们的团队</h2>
+            <p class="text-gray-600 text-center mb-16 max-w-2xl mx-auto">由行业资深专家组成的技术团队</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- 团队成员1 -->
+                <div class="text-center card-hover">
+                    <div class="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#667eea] to-[#764ba2] p-1">
+                        <div class="w-full h-full rounded-full bg-gray-200 flex items-center justify-center">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20asian%20businessman%20portrait%20CEO%20headshot&image_size=square_hd" alt="团队成员" class="w-full h-full rounded-full object-cover">
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-1">张明</h3>
+                    <p class="text-gray-600">创始人 & CEO</p>
+                </div>
+                
+                <!-- 团队成员2 -->
+                <div class="text-center card-hover">
+                    <div class="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#667eea] to-[#764ba2] p-1">
+                        <div class="w-full h-full rounded-full bg-gray-200 flex items-center justify-center">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20asian%20businesswoman%20portrait%20CTO%20headshot&image_size=square_hd" alt="团队成员" class="w-full h-full rounded-full object-cover">
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-1">李晓华</h3>
+                    <p class="text-gray-600">联合创始人 & CTO</p>
+                </div>
+                
+                <!-- 团队成员3 -->
+                <div class="text-center card-hover">
+                    <div class="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#667eea] to-[#764ba2] p-1">
+                        <div class="w-full h-full rounded-full bg-gray-200 flex items-center justify-center">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20asian%20man%20product%20manager%20portrait%20headshot&image_size=square_hd" alt="团队成员" class="w-full h-full rounded-full object-cover">
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-1">王伟</h3>
+                    <p class="text-gray-600">产品总监</p>
+                </div>
+                
+                <!-- 团队成员4 -->
+                <div class="text-center card-hover">
+                    <div class="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#667eea] to-[#764ba2] p-1">
+                        <div class="w-full h-full rounded-full bg-gray-200 flex items-center justify-center">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20asian%20woman%20designer%20portrait%20headshot&image_size=square_hd" alt="团队成员" class="w-full h-full rounded-full object-cover">
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-1">陈静</h3>
+                    <p class="text-gray-600">设计总监</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户评价 -->
+    <section id="testimonials" class="py-24 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4">客户怎么说</h2>
+            <p class="text-gray-600 text-center mb-16 max-w-2xl mx-auto">听听我们的客户对我们的评价</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- 评价1 -->
+                <div class="bg-white p-8 rounded-xl shadow-sm card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="flex text-yellow-400">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6 leading-relaxed">"与他们合作是一次非常愉快的体验。团队专业、高效，为我们量身打造了一套完美的解决方案。"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-200 mr-4">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20asian%20businessman%20portrait%20client%20headshot&image_size=square_hd" alt="客户头像" class="w-full h-full rounded-full object-cover">
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-900">刘强</div>
+                            <div class="text-gray-600 text-sm">某科技公司 CEO</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 评价2 -->
+                <div class="bg-white p-8 rounded-xl shadow-sm card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="flex text-yellow-400">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6 leading-relaxed">"他们的技术实力很强，能够快速理解我们的需求并提供专业的解决方案。项目按时交付，超出我们的预期。"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-200 mr-4">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20asian%20businesswoman%20portrait%20client%20headshot&image_size=square_hd" alt="客户头像" class="w-full h-full rounded-full object-cover">
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-900">赵婷</div>
+                            <div class="text-gray-600 text-sm">某金融公司 技术总监</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 评价3 -->
+                <div class="bg-white p-8 rounded-xl shadow-sm card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="flex text-yellow-400">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6 leading-relaxed">"售后服务非常好，有问题能够及时响应和解决。产品也很稳定，上线以来运行得非常好。强烈推荐！"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-200 mr-4">
+                            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=professional%20asian%20man%20doctor%20healthcare%20portrait%20headshot&image_size=square_hd" alt="客户头像" class="w-full h-full rounded-full object-cover">
+                        </div>
+                        <div>
+                            <div class="font-semibold text-gray-900">孙医生</div>
+                            <div class="text-gray-600 text-sm">某医院 信息科主任</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="py-24 bg-gradient-to-br from-[#667eea] to-[#764ba2]">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+                准备好开始你的项目了吗？
+            </h2>
+            <p class="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
+                立即联系我们，让我们一起探讨如何用科技助力您的业务发展
+            </p>
+            <a href="mailto:contact@techcompany.com" class="btn-hover inline-block bg-white text-[#667eea] px-10 py-4 rounded-full font-semibold text-lg">
+                联系我们
+            </a>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div class="md:col-span-2">
+                    <div class="text-2xl font-bold mb-4">TECHNOLOGY</div>
+                    <p class="text-gray-400 mb-6">用科技驱动企业数字化转型，提供一站式软件开发和云服务解决方案。</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#667eea] transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#667eea] transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#667eea] transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">快速链接</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#home" class="hover:text-white transition-colors">首页</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">我们的服务</a></li>
+                        <li><a href="#solutions" class="hover:text-white transition-colors">解决方案</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">服务支持</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">技术支持</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">常见问题</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">文档中心</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">联系我们</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>contact@techcompany.com</li>
+                        <li>400-123-4567</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 TECHNOLOGY. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        const navLogo = document.querySelector('.nav-logo');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const menuBtn = document.querySelector('.nav-menu-btn');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('nav-scrolled');
+                navLogo.classList.remove('text-white');
+                navLogo.classList.add('text-[#667eea]');
+                navLinks.forEach(link => {
+                    link.classList.remove('text-white/90', 'hover:text-white');
+                    link.classList.add('text-gray-700', 'hover:text-[#667eea]');
+                });
+                menuBtn.classList.remove('text-white');
+                menuBtn.classList.add('text-gray-700');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+                navLogo.classList.add('text-white');
+                navLogo.classList.remove('text-[#667eea]');
+                navLinks.forEach(link => {
+                    link.classList.add('text-white/90', 'hover:text-white');
+                    link.classList.remove('text-gray-700', 'hover:text-[#667eea]');
+                });
+                menuBtn.classList.add('text-white');
+                menuBtn.classList.remove('text-gray-700');
+            }
+        });
+        
+        // 移动端菜单
+        const mobileMenuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 关闭移动菜单
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+        
+        // 解决方案标签切换
+        const solutionTabs = document.querySelectorAll('.solution-tab');
+        const solutionContents = document.querySelectorAll('.solution-content');
+        
+        solutionTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.getAttribute('data-tab');
+                
+                // 移除所有激活状态
+                solutionTabs.forEach(t => {
+                    t.classList.remove('active');
+                    t.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-50');
+                });
+                
+                // 隐藏所有内容
+                solutionContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // 激活当前标签
+                tab.classList.add('active');
+                tab.classList.remove('bg-white', 'text-gray-700', 'hover:bg-gray-50');
+                
+                // 显示对应内容
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
