@@ -11,87 +11,27 @@
         * {
             font-family: 'Noto Sans SC', sans-serif;
         }
-        
         .page {
             opacity: 0;
             animation: fadeIn 0.3s ease-in-out forwards;
         }
-        
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        
-        .btn-hover {
-            transition: all 0.2s ease;
-        }
-        
-        .btn-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(22, 93, 255, 0.3);
-        }
-        
-        .input-focus {
-            transition: all 0.2s ease;
-        }
-        
-        .input-focus:focus {
-            border-color: #165DFF;
-            box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1);
-        }
-        
-        .drop-zone {
-            transition: all 0.3s ease;
-            border: 2px dashed #d1d5db;
-        }
-        
-        .drop-zone.drag-over {
-            border-color: #165DFF;
-            background-color: rgba(22, 93, 255, 0.05);
-        }
-        
-        .template-card {
-            transition: all 0.3s ease;
-        }
-        
-        .template-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .template-card.selected {
-            border-color: #165DFF;
-            box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1);
-        }
-        
-        .progress-bar {
-            animation: progress 3s ease-in-out;
-        }
-        
-        @keyframes progress {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-        
-        .preview-container {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        
-        .mobile-frame {
-            width: 375px;
-            height: 667px;
-            border: 8px solid #1f2937;
-            border-radius: 24px;
-            overflow: hidden;
-        }
+        .btn-hover { transition: all 0.2s ease; }
+        .btn-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(22, 93, 255, 0.3); }
+        .input-focus { transition: all 0.2s ease; }
+        .input-focus:focus { border-color: #165DFF; box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1); }
+        .drop-zone { transition: all 0.3s ease; border: 2px dashed #d1d5db; }
+        .drop-zone.drag-over { border-color: #165DFF; background-color: rgba(22, 93, 255, 0.05); }
+        .template-card { transition: all 0.3s ease; }
+        .template-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+        .template-card.selected { border-color: #165DFF; box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1); }
+        .progress-bar { animation: progress 3s ease-in-out; }
+        @keyframes progress { 0% { width: 0%; } 100% { width: 100%; } }
+        .preview-container { border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; }
+        .mobile-frame { width: 375px; height: 667px; border: 8px solid #1f2937; border-radius: 24px; overflow: hidden; }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -107,16 +47,13 @@
                 <h1 class="text-2xl font-bold text-gray-900">智能建站系统</h1>
                 <p class="text-gray-500 mt-2">请输入密码登录</p>
             </div>
-            
             <div class="space-y-6">
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">密码</label>
                     <input type="password" id="passwordInput" class="input-focus w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none" placeholder="请输入密码">
                 </div>
                 <div id="loginError" class="hidden text-red-500 text-sm"></div>
-                <button id="loginBtn" class="btn-hover w-full bg-[#165DFF] text-white py-3 rounded-xl font-semibold text-lg">
-                    登录
-                </button>
+                <button id="loginBtn" class="btn-hover w-full bg-[#165DFF] text-white py-3 rounded-xl font-semibold text-lg">登录</button>
             </div>
         </div>
     </div>
@@ -124,7 +61,6 @@
     <!-- 主界面 -->
     <div id="mainPage" class="page hidden">
         <div class="min-h-screen">
-            <!-- 顶部 -->
             <div class="bg-white shadow-sm border-b">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
                     <div class="flex items-center space-x-3">
@@ -137,15 +73,11 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- 主内容 -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-bold text-gray-900 mb-4">欢迎使用智能建站系统</h2>
                     <p class="text-gray-600 text-lg">快速创建专业的企业网站</p>
                 </div>
-                
-                <!-- 创建新网站按钮 -->
                 <div class="text-center mb-16">
                     <button id="createNewBtn" class="btn-hover inline-flex items-center space-x-3 bg-[#165DFF] text-white px-8 py-4 rounded-xl font-semibold text-lg">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -154,12 +86,9 @@
                         <span>创建新网站</span>
                     </button>
                 </div>
-                
-                <!-- 最近创建的网站 -->
                 <div>
                     <h3 class="text-xl font-bold text-gray-900 mb-6">最近创建的网站</h3>
-                    <div id="recentWebsites" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    </div>
+                    <div id="recentWebsites" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
                     <div id="noWebsitesPlaceholder" class="text-center py-16">
                         <div class="w-24 h-24 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
                             <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -177,7 +106,6 @@
     <!-- 创建网站流程页面 -->
     <div id="createPage" class="page hidden">
         <div class="min-h-screen bg-gray-50">
-            <!-- 顶部 -->
             <div class="bg-white shadow-sm border-b">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div class="flex items-center justify-between">
@@ -189,7 +117,6 @@
                             </button>
                             <h1 class="text-xl font-bold text-gray-900">创建新网站</h1>
                         </div>
-                        <!-- 步骤指示器 -->
                         <div class="flex items-center space-x-4">
                             <div id="step1Indicator" class="flex items-center space-x-2">
                                 <div class="w-8 h-8 rounded-full bg-[#165DFF] text-white flex items-center justify-center font-semibold">1</div>
@@ -241,8 +168,6 @@
                             <input type="text" id="companyAddress" class="input-focus w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none" placeholder="请输入详细地址">
                         </div>
                     </div>
-                    
-                    <!-- Logo上传 -->
                     <div class="mt-8">
                         <h3 class="text-lg font-semibold text-gray-900 mb-4">企业LOGO</h3>
                         <div id="logoDropZone" class="drop-zone border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50">
@@ -260,14 +185,12 @@
                         </div>
                         <input type="file" id="logoInput" class="hidden" accept="image/*">
                     </div>
-                    
-                    <!-- 轮播图上传 -->
                     <div class="mt-8">
                         <h3 class="text-lg font-semibold text-gray-900 mb-4">轮播图（3张）</h3>
                         <div class="grid md:grid-cols-3 gap-4">
                             <div id="banner1DropZone" class="drop-zone border-dashed border-gray-300 rounded-xl p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50">
                                 <div id="banner1Preview" class="hidden">
-                                    <img id="banner1Image" class="w-full h-32 object-cover rounded-lg mb-3" alt="轮播图1预览">
+                                    <img id="banner1Image" class="w-full h-48 object-cover rounded-lg mb-3" alt="轮播图1预览">
                                     <button id="removeBanner1" class="text-red-500 text-sm hover:text-red-600">删除</button>
                                 </div>
                                 <div id="banner1Placeholder">
@@ -279,7 +202,7 @@
                             </div>
                             <div id="banner2DropZone" class="drop-zone border-dashed border-gray-300 rounded-xl p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50">
                                 <div id="banner2Preview" class="hidden">
-                                    <img id="banner2Image" class="w-full h-32 object-cover rounded-lg mb-3" alt="轮播图2预览">
+                                    <img id="banner2Image" class="w-full h-48 object-cover rounded-lg mb-3" alt="轮播图2预览">
                                     <button id="removeBanner2" class="text-red-500 text-sm hover:text-red-600">删除</button>
                                 </div>
                                 <div id="banner2Placeholder">
@@ -291,7 +214,7 @@
                             </div>
                             <div id="banner3DropZone" class="drop-zone border-dashed border-gray-300 rounded-xl p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50">
                                 <div id="banner3Preview" class="hidden">
-                                    <img id="banner3Image" class="w-full h-32 object-cover rounded-lg mb-3" alt="轮播图3预览">
+                                    <img id="banner3Image" class="w-full h-48 object-cover rounded-lg mb-3" alt="轮播图3预览">
                                     <button id="removeBanner3" class="text-red-500 text-sm hover:text-red-600">删除</button>
                                 </div>
                                 <div id="banner3Placeholder">
@@ -306,7 +229,6 @@
                         <input type="file" id="banner2Input" class="hidden" accept="image/*">
                         <input type="file" id="banner3Input" class="hidden" accept="image/*">
                     </div>
-                    
                     <div class="mt-8 flex justify-end">
                         <button id="toStep2" class="btn-hover bg-[#165DFF] text-white px-8 py-3 rounded-xl font-semibold">下一步</button>
                     </div>
@@ -344,7 +266,7 @@
                             <div class="border-2 border-gray-200 rounded-xl p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all">
                                 <div class="w-16 h-16 mx-auto bg-green-100 rounded-xl flex items-center justify-center mb-4">
                                     <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-4.686 0-9-1.396-9-3.382 0-.656-.126 1.283-.341 1.885a48.657 48.657 0 014.201 1.822c1.353.607 2.436 1.088 3.14 1.335 1.096.371 2.243.371 3.34 0 .704-.247 1.786-.728 3.136-1.335A48.694 48.694 0 0021 13.255zM15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-4.686 0-9-1.396-9-3.382 0-.656-.126 1.283-.341 1.885a48.657 48.657 0 004.201 1.822c1.353.607 2.436 1.088 3.14 1.335 1.096.371 2.243.371 3.34 0 .704-.247 1.786-.728 3.136-1.335A48.694 48.694 0 0021 13.255zM15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     </svg>
                                 </div>
                                 <h3 class="text-xl font-bold text-gray-900 mb-2">商贸服务</h3>
@@ -352,7 +274,6 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="mt-8 flex justify-between">
                         <button id="backToStep1" class="btn-hover bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-semibold">上一步</button>
                         <button id="toStep3" class="btn-hover bg-[#165DFF] text-white px-8 py-3 rounded-xl font-semibold" disabled>下一步</button>
@@ -364,9 +285,7 @@
             <div id="step3" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 hidden">
                 <div class="bg-white rounded-2xl shadow-lg p-8">
                     <h2 class="text-2xl font-bold text-gray-900 mb-8">选择模板</h2>
-                    <div id="templateGrid" class="grid md:grid-cols-1 gap-8">
-                    </div>
-                    
+                    <div id="templateGrid" class="grid md:grid-cols-1 gap-8"></div>
                     <div class="mt-8 flex justify-between">
                         <button id="backToStep2" class="btn-hover bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-semibold">上一步</button>
                         <button id="toStep4" class="btn-hover bg-[#165DFF] text-white px-8 py-3 rounded-xl font-semibold" disabled>下一步</button>
@@ -385,8 +304,6 @@
                     <h2 class="text-2xl font-bold text-gray-900 mb-4">准备生成网站</h2>
                     <p class="text-gray-600 mb-8">点击下方按钮，一键生成您的企业网站</p>
                     <button id="generateBtn" class="btn-hover bg-[#165DFF] text-white px-12 py-4 rounded-xl font-semibold text-lg">一键生成网站</button>
-                    
-                    <!-- 加载动画 -->
                     <div id="loadingSection" class="hidden mt-8">
                         <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                             <div id="progressBar" class="h-full bg-gradient-to-r from-[#165DFF] to-blue-600" style="width: 0%"></div>
@@ -401,7 +318,6 @@
     <!-- 预览页面 -->
     <div id="previewPage" class="page hidden">
         <div class="min-h-screen bg-gray-100">
-            <!-- 顶部 -->
             <div class="bg-white shadow-sm border-b sticky top-0 z-10">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div class="flex items-center justify-between">
@@ -428,8 +344,6 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- 预览区域 -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <div id="pcPreview" class="preview-container">
                     <iframe id="previewFrame" class="w-full h-[800px] bg-white" style="width: 100%; height: 800px; border: none;"></iframe>
@@ -474,26 +388,15 @@
         let currentStep = 1;
         let selectedIndustry = null;
         let selectedTemplate = null;
-        let websiteData = {
-            companyName: '',
-            companyDesc: '',
-            companyPhone: '',
-            companyEmail: '',
-            companyAddress: '',
-            logo: null,
-            banners: [null, null, null]
-        };
+        let websiteData = { companyName: '', companyDesc: '', companyPhone: '', companyEmail: '', companyAddress: '', logo: null, banners: [null, null, null] };
         let recentWebsites = [];
         let generatedHtml = '';
-        
-        // 页面切换函数
+
         function showPage(pageId) {
-            document.querySelectorAll('[id$="Page"]').forEach(page => {
-                page.classList.add('hidden');
-            });
+            document.querySelectorAll('[id$="Page"]').forEach(page => { page.classList.add('hidden'); });
             document.getElementById(pageId).classList.remove('hidden');
         }
-        
+
         function showStep(step) {
             for (let i = 1; i <= 4; i++) {
                 document.getElementById(`step${i}`).classList.add('hidden');
@@ -518,8 +421,7 @@
             document.getElementById(`step${step}`).classList.remove('hidden');
             currentStep = step;
         }
-        
-        // 登录功能
+
         document.getElementById('loginBtn').addEventListener('click', function() {
             const password = document.getElementById('passwordInput').value;
             if (password === '123456') {
@@ -530,57 +432,41 @@
                 document.getElementById('loginError').classList.remove('hidden');
             }
         });
-        
-        // 登录回车登录
+
         document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('loginBtn').click();
-            }
+            if (e.key === 'Enter') { document.getElementById('loginBtn').click(); }
         });
-        
-        // 创建新网站
+
         document.getElementById('createNewBtn').addEventListener('click', function() {
             showPage('createPage');
             showStep(1);
             currentStep = 1;
             selectedIndustry = null;
             selectedTemplate = null;
-            websiteData = {
-                companyName: '',
-                companyDesc: '',
-                companyPhone: '',
-                companyEmail: '',
-                companyAddress: '',
-                logo: null,
-                banners: [null, null, null]
-            };
-            // 清空表单
+            websiteData = { companyName: '', companyDesc: '', companyPhone: '', companyEmail: '', companyAddress: '', logo: null, banners: [null, null, null] };
             document.getElementById('companyName').value = '';
             document.getElementById('companyPhone').value = '';
             document.getElementById('companyDesc').value = '';
             document.getElementById('companyEmail').value = '';
             document.getElementById('companyAddress').value = '';
-            // 重置预览
             resetImagePreview('logo');
             resetImagePreview('banner1');
             resetImagePreview('banner2');
             resetImagePreview('banner3');
         });
-        
+
         function resetImagePreview(prefix) {
             const preview = document.getElementById(`${prefix}Preview`);
             const placeholder = document.getElementById(`${prefix}Placeholder`);
             if (preview) preview.classList.add('hidden');
             if (placeholder) placeholder.classList.remove('hidden');
         }
-        
-        // 返回主界面
+
         document.getElementById('backToMain').addEventListener('click', function() {
             showPage('mainPage');
             loadRecentWebsites();
         });
-        
-        // 文件上传处理
+
         function setupDropZone(dropZoneId, inputId, previewId, previewImageId, placeholderId, removeBtnId, index) {
             const dropZone = document.getElementById(dropZoneId);
             const input = document.getElementById(inputId);
@@ -588,72 +474,39 @@
             const previewImage = document.getElementById(previewImageId);
             const placeholder = document.getElementById(placeholderId);
             const removeBtn = document.getElementById(removeBtnId);
-            
             if (!dropZone || !input) return;
-            
             dropZone.addEventListener('click', () => input.click());
-            
-            dropZone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                dropZone.classList.add('drag-over');
-            });
-            
-            dropZone.addEventListener('dragleave', () => {
-                dropZone.classList.remove('drag-over');
-            });
-            
-            dropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropZone.classList.remove('drag-over');
-                if (e.dataTransfer.files.length) {
-                    handleFile(e.dataTransfer.files[0]);
-                }
-            });
-            
-            input.addEventListener('change', (e) => {
-                if (e.target.files.length) {
-                    handleFile(e.target.files[0]);
-                }
-            });
-            
+            dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+            dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('drag-over'); });
+            dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('drag-over'); if (e.dataTransfer.files.length) { handleFile(e.dataTransfer.files[0]); } });
+            input.addEventListener('change', (e) => { if (e.target.files.length) { handleFile(e.target.files[0]); } });
             function handleFile(file) {
                 if (file.type.startsWith('image/')) {
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         const dataUrl = e.target.result;
                         previewImage.src = dataUrl;
-                        if (index !== undefined) {
-                            websiteData.banners[index] = dataUrl;
-                        } else {
-                            websiteData.logo = dataUrl;
-                        }
+                        if (index !== undefined) { websiteData.banners[index] = dataUrl; } else { websiteData.logo = dataUrl; }
                         preview.classList.remove('hidden');
                         placeholder.classList.add('hidden');
                     };
                     reader.readAsDataURL(file);
                 }
             }
-            
             if (removeBtn) {
                 removeBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    if (index !== undefined) {
-                        websiteData.banners[index] = null;
-                    } else {
-                        websiteData.logo = null;
-                    }
+                    if (index !== undefined) { websiteData.banners[index] = null; } else { websiteData.logo = null; }
                     preview.classList.add('hidden');
                     placeholder.classList.remove('hidden');
                 });
             }
         }
-        
         setupDropZone('logoDropZone', 'logoInput', 'logoPreview', 'logoImage', 'logoPlaceholder', 'removeLogo');
         setupDropZone('banner1DropZone', 'banner1Input', 'banner1Preview', 'banner1Image', 'banner1Placeholder', 'removeBanner1', 0);
         setupDropZone('banner2DropZone', 'banner2Input', 'banner2Preview', 'banner2Image', 'banner2Placeholder', 'removeBanner2', 1);
         setupDropZone('banner3DropZone', 'banner3Input', 'banner3Preview', 'banner3Image', 'banner3Placeholder', 'removeBanner3', 2);
-        
-        // 步骤导航
+
         document.getElementById('toStep2').addEventListener('click', function() {
             websiteData.companyName = document.getElementById('companyName').value;
             websiteData.companyDesc = document.getElementById('companyDesc').value;
@@ -662,62 +515,32 @@
             websiteData.companyAddress = document.getElementById('companyAddress').value;
             showStep(2);
         });
-        
-        document.getElementById('backToStep1').addEventListener('click', function() {
-            showStep(1);
-        });
-        
-        // 行业选择
+
+        document.getElementById('backToStep1').addEventListener('click', function() { showStep(1); });
+
         document.querySelectorAll('.industry-card').forEach(card => {
             card.addEventListener('click', function() {
-                document.querySelectorAll('.industry-card div').forEach(el => {
-                    el.classList.remove('border-blue-500', 'bg-blue-50');
-                    el.classList.add('border-gray-200');
-                });
+                document.querySelectorAll('.industry-card div').forEach(el => { el.classList.remove('border-blue-500', 'bg-blue-50'); el.classList.add('border-gray-200'); });
                 this.querySelector('div').classList.add('border-blue-500', 'bg-blue-50');
                 this.querySelector('div').classList.remove('border-gray-200');
                 selectedIndustry = this.dataset.industry;
                 document.getElementById('toStep3').disabled = false;
             });
         });
-        
-        document.getElementById('toStep3').addEventListener('click', function() {
-            showStep(3);
-            renderTemplates();
-        });
-        
-        document.getElementById('backToStep2').addEventListener('click', function() {
-            showStep(2);
-        });
-        
-        // 模板渲染
+
+        document.getElementById('toStep3').addEventListener('click', function() { showStep(3); renderTemplates(); });
+
+        document.getElementById('backToStep2').addEventListener('click', function() { showStep(2); });
+
         function renderTemplates() {
             const templateGrid = document.getElementById('templateGrid');
             templateGrid.innerHTML = '';
-            
             const templates = {
-                industrial: [{
-                    id: 'industrial1',
-                    name: '工业制造模板',
-                    description: '专业的工业制造企业官网模板',
-                    image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text-to-image?prompt=modern%20industrial%20factory%20website%20design%20template%20professional%20blue%20theme&image_size=landscape_16_9'
-                }],
-                tech: [{
-                    id: 'tech1',
-                    name: '科技互联网模板',
-                    description: '现代化科技企业官网模板',
-                    image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text-to-image?prompt=modern%20tech%20startup%20website%20template%20purple%20blue%20theme%20professional&image_size=landscape_16_9'
-                }],
-                business: [{
-                    id: 'business1',
-                    name: '商贸服务模板',
-                    description: '专业的商贸服务企业官网模板',
-                    image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text-to-image?prompt=business%20service%20company%20website%20template%20green%20theme%20professional&image_size=landscape_16_9'
-                }]
+                industrial: [{ id: 'industrial1', name: '工业制造模板', description: '专业的工业制造企业官网模板', image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text-to-image?prompt=modern%20industrial%20factory%20website%20design%20template%20professional%20blue%20theme&image-size=landscape-16-9' }],
+                tech: [{ id: 'tech1', name: '科技互联网模板', description: '现代化科技企业官网模板', image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text-to-image?prompt=modern%20tech%20startup%20website%20template%20purple%20blue%20theme%20professional&image-size=landscape-16-9' }],
+                business: [{ id: 'business1', name: '商贸服务模板', description: '专业的商贸服务企业官网模板', image: 'https://trae-api-cn.mchost.guru/api/ide/v1/text-to-image?prompt=business%20service%20company%20website%20template%20green%20theme%20professional&image-size=landscape-16-9' }]
             };
-            
             const industryTemplates = templates[selectedIndustry] || templates.industrial;
-            
             industryTemplates.forEach(template => {
                 const templateCard = document.createElement('div');
                 templateCard.className = 'template-card bg-white border-2 border-gray-200 rounded-xl overflow-hidden cursor-pointer';
@@ -734,105 +557,63 @@
                 `;
                 templateCard.addEventListener('click', function(e) {
                     if (e.target.classList.contains('preview-template-btn')) return;
-                    document.querySelectorAll('.template-card').forEach(card => {
-                        card.classList.remove('border-[#165DFF]', 'selected');
-                        card.classList.add('border-gray-200');
-                    });
+                    document.querySelectorAll('.template-card').forEach(card => { card.classList.remove('border-[#165DFF]', 'selected'); card.classList.add('border-gray-200'); });
                     this.classList.add('border-[#165DFF]', 'selected');
                     this.classList.remove('border-gray-200');
                     selectedTemplate = template.id;
                     document.getElementById('toStep4').disabled = false;
                 });
-                
                 templateCard.querySelector('.preview-template-btn').addEventListener('click', function(e) {
                     e.stopPropagation();
                     document.getElementById('modalTemplateName').textContent = this.dataset.name;
                     document.getElementById('modalTemplateImage').src = this.dataset.image;
                     document.getElementById('templateModal').classList.remove('hidden');
                 });
-                
                 templateGrid.appendChild(templateCard);
             });
         }
-        
-        document.getElementById('closeModal').addEventListener('click', function() {
-            document.getElementById('templateModal').classList.add('hidden');
-        });
-        
-        document.getElementById('templateModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                document.getElementById('templateModal').classList.add('hidden');
-            }
-        });
-        
-        document.getElementById('toStep4').addEventListener('click', function() {
-            showStep(4);
-        });
-        
-        // 生成网站
+
+        document.getElementById('closeModal').addEventListener('click', function() { document.getElementById('templateModal').classList.add('hidden'); });
+
+        document.getElementById('templateModal').addEventListener('click', function(e) { if (e.target === this) { document.getElementById('templateModal').classList.add('hidden'); } });
+
+        document.getElementById('toStep4').addEventListener('click', function() { showStep(4); });
+
         document.getElementById('generateBtn').addEventListener('click', function() {
             document.getElementById('generateBtn').classList.add('hidden');
             document.getElementById('loadingSection').classList.remove('hidden');
-            
             const progressBar = document.getElementById('progressBar');
             progressBar.classList.add('progress-bar');
             progressBar.style.width = '100%';
-            
-            setTimeout(() => {
-                generateWebsite();
-            }, 3000);
+            setTimeout(() => { generateWebsite(); }, 3000);
         });
-        
+
         function generateWebsite() {
             let templateHtml = '';
-            
-            if (selectedIndustry === 'industrial') {
-                templateHtml = industrialTemplateHtml;
-            } else if (selectedIndustry === 'tech') {
-                templateHtml = techTemplateHtml;
-            } else {
-                templateHtml = businessTemplateHtml;
-            }
-            
+            if (selectedIndustry === 'industrial') { templateHtml = industrialTemplateHtml; }
+            else if (selectedIndustry === 'tech') { templateHtml = techTemplateHtml; }
+            else { templateHtml = businessTemplateHtml; }
             generatedHtml = fillTemplate(templateHtml);
-            
-            const newWebsite = {
-                id: Date.now(),
-                name: websiteData.companyName || '未命名网站',
-                industry: selectedIndustry,
-                template: selectedTemplate,
-                createdAt: new Date().toISOString(),
-                html: generatedHtml
-            };
-            
+            const newWebsite = { id: Date.now(), name: websiteData.companyName || '未命名网站', industry: selectedIndustry, template: selectedTemplate, createdAt: new Date().toISOString(), html: generatedHtml };
             recentWebsites.unshift(newWebsite);
             localStorage.setItem('websites', JSON.stringify(recentWebsites));
-            
             showPage('previewPage');
             showPreview(generatedHtml);
         }
-        
+
         function fillTemplate(html) {
             let filled = html;
-            
-            // 替换企业名称
             const companyName = websiteData.companyName || '您的企业名称';
-            filled = filled.replace(/企业名称/g, companyName);
-            filled = filled.replace(/商贸服务/g, companyName);
-            filled = filled.replace(/TECHNOLOGY/g, companyName);
-            
-            // 替换企业简介
             const companyDesc = websiteData.companyDesc || '这是您的企业简介，描述您的企业业务和优势。';
-            filled = filled.replace(/致力于为客户提供高品质的工业制造产品和解决方案/g, companyDesc);
-            filled = filled.replace(/提供一站式软件开发和云服务解决方案/g, companyDesc);
-            filled = filled.replace(/为企业提供采购、物流、仓储、销售全链条服务/g, companyDesc);
-            filled = filled.replace(/专业的一站式商贸服务提供商，为企业提供采购、物流、仓储、销售全链条服务。/g, companyDesc);
-            
-            // 替换联系方式
             const companyPhone = websiteData.companyPhone || '400-000-0000';
             const companyEmail = websiteData.companyEmail || 'contact@example.com';
             const companyAddress = websiteData.companyAddress || '您的企业地址';
-            
+            filled = filled.replace(/企业名称/g, companyName);
+            filled = filled.replace(/商贸服务/g, companyName);
+            filled = filled.replace(/TECHNOLOGY/g, companyName);
+            filled = filled.replace(/致力于为客户提供高品质的工业制造产品和解决方案/g, companyDesc);
+            filled = filled.replace(/提供一站式软件开发和云服务解决方案/g, companyDesc);
+            filled = filled.replace(/为企业提供采购、物流、仓储、销售全链条服务/g, companyDesc);
             filled = filled.replace(/400-123-4567/g, companyPhone);
             filled = filled.replace(/企业电话/g, companyPhone);
             filled = filled.replace(/contact@techcompany.com/g, companyEmail);
@@ -840,51 +621,38 @@
             filled = filled.replace(/企业邮箱/g, companyEmail);
             filled = filled.replace(/上海市浦东新区张江高科技园区/g, companyAddress);
             filled = filled.replace(/企业地址/g, companyAddress);
-            
-            // 替换Logo
             if (websiteData.logo) {
-                // 查找导航栏中的文本Logo并替换为图片
                 if (selectedIndustry === 'industrial') {
-                    filled = filled.replace(/<div class="text-2xl font-bold text-white transition-colors duration-300 nav-logo">.*?<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-10 w-auto nav-logo">`);
-                    filled = filled.replace(/<div class="text-2xl font-bold mb-4 text-\[#0F52BA\]">.*?<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-12 w-auto mb-4">`);
+                    filled = filled.replace(/<div class="text-2xl font-bold text-white transition-colors duration-300 nav-logo">企业名称<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-10 w-auto nav-logo">`);
+                    filled = filled.replace(/<div class="text-2xl font-bold mb-4 text-\[#0F52BA\]">企业名称<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-12 w-auto mb-4">`);
                 } else if (selectedIndustry === 'tech') {
-                    filled = filled.replace(/<div class="text-2xl font-bold text-white transition-colors duration-300 nav-logo">.*?<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-10 w-auto nav-logo">`);
-                    filled = filled.replace(/<div class="text-2xl font-bold mb-4">.*?<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-12 w-auto mb-4">`);
+                    filled = filled.replace(/<div class="text-2xl font-bold text-white transition-colors duration-300 nav-logo">TECHNOLOGY<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-10 w-auto nav-logo">`);
+                    filled = filled.replace(/<div class="text-2xl font-bold mb-4">TECHNOLOGY<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-12 w-auto mb-4">`);
                 } else if (selectedIndustry === 'business') {
-                    filled = filled.replace(/<div class="text-2xl font-bold text-\[#00B42A\]">.*?<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-10 w-auto">`);
-                    filled = filled.replace(/<div class="text-2xl font-bold mb-4 text-\[#00B42A\]">.*?<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-12 w-auto mb-4">`);
+                    filled = filled.replace(/<div class="text-2xl font-bold text-\[#00B42A\]">商贸服务<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-10 w-auto">`);
+                    filled = filled.replace(/<div class="text-2xl font-bold mb-4 text-\[#00B42A\]">商贸服务<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-12 w-auto mb-4">`);
                 }
             }
-            
-            // 替换英雄区背景图
             const bannerUrl = websiteData.banners[0] || websiteData.banners[1] || websiteData.banners[2];
             if (bannerUrl) {
-                // 替换英雄区的渐变背景或背景图
                 if (selectedIndustry === 'industrial') {
                     filled = filled.replace(/<div class="hero-gradient min-h-\[700px\] flex items-center">/g, `<div class="min-h-[700px] flex items-center relative"><div class="absolute inset-0 bg-cover bg-center" style="background-image: url('${bannerUrl}')"></div><div class="absolute inset-0 bg-gradient-to-br from-[#0F52BA]/90 to-[#1a3a6e]/90"></div>`);
-                }
-                // 对于科技模板
-                else if (selectedIndustry === 'tech') {
+                } else if (selectedIndustry === 'tech') {
                     filled = filled.replace(/<section id="home" class="hero-gradient min-h-screen flex items-center justify-center">/g, `<section id="home" class="min-h-screen flex items-center justify-center relative"><div class="absolute inset-0 bg-cover bg-center" style="background-image: url('${bannerUrl}')"></div><div class="absolute inset-0 bg-gradient-to-br from-[#667eea]/90 to-[#764ba2]/90"></div>`);
-                }
-                // 对于商贸模板
-                else if (selectedIndustry === 'business') {
+                } else if (selectedIndustry === 'business') {
                     filled = filled.replace(/<div class="relative min-h-\[600px\] flex items-center">[\s\S]*?<div class="absolute inset-0">[\s\S]*?<\/div>/g, `<div class="relative min-h-[600px] flex items-center"><div class="absolute inset-0 bg-cover bg-center" style="background-image: url('${bannerUrl}')"></div><div class="absolute inset-0 bg-black/60"></div>`);
                 }
             }
-            
             return filled;
         }
-        
+
         function showPreview(html) {
             const pcFrame = document.getElementById('previewFrame');
             const mobileFrame = document.getElementById('mobilePreviewFrame');
-            
             pcFrame.srcdoc = html;
             mobileFrame.srcdoc = html;
         }
-        
-        // 预览切换
+
         document.getElementById('pcViewBtn').addEventListener('click', function() {
             document.getElementById('pcPreview').classList.remove('hidden');
             document.getElementById('mobilePreview').classList.add('hidden');
@@ -893,7 +661,7 @@
             document.getElementById('mobileViewBtn').classList.remove('bg-white', 'text-gray-900');
             document.getElementById('mobileViewBtn').classList.add('text-gray-600');
         });
-        
+
         document.getElementById('mobileViewBtn').addEventListener('click', function() {
             document.getElementById('pcPreview').classList.add('hidden');
             document.getElementById('mobilePreview').classList.remove('hidden');
@@ -902,58 +670,36 @@
             document.getElementById('pcViewBtn').classList.remove('bg-white', 'text-gray-900');
             document.getElementById('pcViewBtn').classList.add('text-gray-600');
         });
-        
-        // 导出功能
+
         document.getElementById('exportBtn').addEventListener('click', async function() {
             const zip = new JSZip();
-            
             const fileName = `${websiteData.companyName || 'website'}.html`;
             zip.file(fileName, generatedHtml);
-            
-            const content = await zip.generateAsync({type:"blob"});
-            
+            const content = await zip.generateAsync({ type: 'blob' });
             const url = URL.createObjectURL(content);
             const a = document.createElement('a');
             a.href = url;
             a.download = `${websiteData.companyName || 'website'}.zip`;
             a.click();
             URL.revokeObjectURL(url);
-            
             document.getElementById('exportSuccess').classList.remove('hidden');
-            setTimeout(() => {
-                document.getElementById('exportSuccess').classList.add('hidden');
-            }, 3000);
+            setTimeout(() => { document.getElementById('exportSuccess').classList.add('hidden'); }, 3000);
         });
-        
-        // 返回
-        document.getElementById('backFromPreview').addEventListener('click', function() {
-            showPage('mainPage');
-            loadRecentWebsites();
-        });
-        
-        // 加载最近网站
+
+        document.getElementById('backFromPreview').addEventListener('click', function() { showPage('mainPage'); loadRecentWebsites(); });
+
         function loadRecentWebsites() {
             const saved = localStorage.getItem('websites');
-            if (saved) {
-                recentWebsites = JSON.parse(saved);
-            }
-            
+            if (saved) { recentWebsites = JSON.parse(saved); }
             const container = document.getElementById('recentWebsites');
             const placeholder = document.getElementById('noWebsitesPlaceholder');
-            
             if (recentWebsites.length === 0) {
                 container.innerHTML = '';
                 placeholder.classList.remove('hidden');
             } else {
                 placeholder.classList.add('hidden');
                 container.innerHTML = '';
-                
-                const industryNames = {
-                    industrial: '工业制造',
-                    tech: '科技互联网',
-                    business: '商贸服务'
-                };
-                
+                const industryNames = { industrial: '工业制造', tech: '科技互联网', business: '商贸服务' };
                 recentWebsites.forEach(site => {
                     const card = document.createElement('div');
                     card.className = 'bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-shadow';
@@ -969,13 +715,11 @@
                         <p class="text-gray-500 text-sm mb-4">${industryNames[site.industry] || '未分类'}</p>
                         <p class="text-gray-400 text-xs">${new Date(site.createdAt).toLocaleDateString()}</p>
                     `;
-                    
                     card.addEventListener('click', function() {
                         showPage('previewPage');
                         showPreview(site.html);
                         generatedHtml = site.html;
                     });
-                    
                     container.appendChild(card);
                 });
             }
@@ -983,7 +727,6 @@
     </script>
 
     <script>
-        // 工业制造模板HTML
         const industrialTemplateHtml = `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -993,32 +736,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            font-family: 'Noto Sans SC', sans-serif;
-            scroll-behavior: smooth;
-        }
-        .hero-gradient {
-            background: linear-gradient(135deg, #0F52BA 0%, #1a3a6e 100%);
-        }
-        .btn-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .btn-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        .card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .card-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        .nav-scrolled {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
+        * { font-family: 'Noto Sans SC', sans-serif; scroll-behavior: smooth; }
+        .hero-gradient { background: linear-gradient(135deg, #0F52BA 0%, #1a3a6e 100%); }
+        .btn-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
+        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
+        .nav-scrolled { background: rgba(255,255,255,0.98); backdrop-filter: blur(10px); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -1052,9 +776,28 @@
             </div>
         </div>
     </nav>
-
     <section id="home" class="pt-20">
         <div class="hero-gradient min-h-[700px] flex items-center">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center text-white relative z-10">
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                    专业制造 品质为先
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">专业制造 品质为先</h1>
+                <p class="text-xl md:text-2xl text-white/90 mb-10 max-w-3xl mx-auto">致力于为客户提供高品质的工业制造产品和解决方案</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#products" class="btn-hover bg-[#FF7D00] text-white px-8 py-4 rounded-lg font-semibold text-lg">查看产品</a>
+                    <a href="#contact" class="btn-hover bg-white/10 border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white/20">联系我们</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4">关于我们</h2>
+            <p class="text-gray-600 text-center mb-16 max-w-3xl mx-auto text-lg">致力于为客户提供高品质的工业制造产品和解决方案</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-8">
+                    <div class="w-16 h-16 mx-auto bg-[#0F52BA]/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-[#0F52BA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">创新技术</h3>
+                    <p
