@@ -8,516 +8,753 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
-        * { font-family: 'Noto Sans SC', sans-serif; }
-        .page { opacity: 0; transform: translateY(20px); animation: fadeInUp 0.5s ease-out forwards; }
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-        .hover-lift { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.15); }
-        .btn-primary { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); transition: all 0.3s ease; }
-        .btn-primary:hover { background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%); transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4); }
-        .input-custom { transition: all 0.3s ease; }
-        .input-custom:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); transform: translateY(-1px); }
-        .tech-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%); }
-        .template-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .template-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
-        .template-card.selected { border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); }
-        .loading-spinner { animation: spin 1s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .notification { animation: slideDown 0.4s ease-out; }
-        @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .drop-zone { transition: all 0.3s ease; border: 2px dashed #cbd5e1; }
-        .drop-zone:hover, .drop-zone.drag-over { border-color: #3b82f6; background: rgba(59, 130, 246, 0.05); }
-        .device-frame-pc { border: 12px solid #1f2937; border-radius: 16px; }
-        .device-frame-tablet { border: 10px solid #1f2937; border-radius: 20px; }
-        .device-frame-mobile { border: 12px solid #1f2937; border-radius: 28px; }
-        .progress-bar-animated { background: linear-gradient(90deg, #3b82f6, #8b5cf6, #3b82f6); background-size: 200% 100%; animation: shimmer 2s linear infinite; }
-        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        * {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        .page {
+            opacity: 0;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .btn-hover { transition: all 0.2s ease; }
+        .btn-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(22, 93, 255, 0.3); }
+        .input-focus { transition: all 0.2s ease; }
+        .input-focus:focus { border-color: #165DFF; box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1); }
+        .drop-zone { transition: all 0.3s ease; border: 2px dashed #d1d5db; }
+        .drop-zone.drag-over { border-color: #165DFF; background-color: rgba(22, 93, 255, 0.05); }
+        .template-card { transition: all 0.3s ease; }
+        .template-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+        .template-card.selected { border-color: #165DFF; box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1); }
+        .progress-bar { animation: progress 3s ease-in-out; }
+        @keyframes progress { 0% { width: 0%; } 100% { width: 100%; } }
+        .preview-container { border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; }
+        .mobile-frame { width: 375px; height: 667px; border: 8px solid #1f2937; border-radius: 24px; overflow: hidden; }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
-    <div id="notification" class="fixed top-0 left-0 right-0 z-50 hidden notification">
-        <div class="bg-green-500 text-white py-4 px-6 shadow-lg">
-            <div class="max-w-7xl mx-auto flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    <span id="notificationText" class="font-medium">操作成功</span>
-                </div>
-                <button onclick="hideNotification()" class="hover:bg-green-600 rounded-lg p-1">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
-    
-    <div id="loginPage" class="page min-h-screen flex items-center justify-center tech-gradient">
-        <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl"></div>
-            <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl"></div>
-        </div>
-        <div class="relative bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-10 w-full max-w-md mx-4">
-            <div class="text-center mb-10">
-                <div class="w-20 h-20 mx-auto bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl flex items-center justify-center mb-6 hover-lift">
-                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 0 002 2z"></path>
+    <!-- 登录页面 -->
+    <div id="loginPage" class="page min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50">
+        <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 mx-auto bg-gradient-to-br from-[#165DFF] to-blue-600 rounded-2xl flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                     </svg>
                 </div>
-                <h1 class="text-3xl font-bold text-gray-900 mb-2">智能建站系统</h1>
-                <p class="text-gray-500">快速打造专业企业官网</p>
+                <h1 class="text-2xl font-bold text-gray-900">智能建站系统</h1>
+                <p class="text-gray-500 mt-2">请输入密码登录</p>
             </div>
             <div class="space-y-6">
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">密码</label>
-                    <input type="password" id="passwordInput" class="input-custom w-full px-5 py-4 border border-gray-300 rounded-xl focus:outline-none text-lg" placeholder="请输入密码">
+                    <input type="password" id="passwordInput" class="input-focus w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none" placeholder="请输入密码">
                 </div>
-                <div id="loginError" class="hidden text-red-500 text-sm text-center"></div>
-                <button id="loginBtn" class="btn-primary w-full text-white py-4 rounded-xl font-semibold text-lg hover-lift">登录</button>
+                <div id="loginError" class="hidden text-red-500 text-sm"></div>
+                <button id="loginBtn" class="btn-hover w-full bg-[#165DFF] text-white py-3 rounded-xl font-semibold text-lg">登录</button>
             </div>
-            <p class="text-center text-gray-400 text-sm mt-8">默认密码: 123456</p>
         </div>
     </div>
-    
+
+    <!-- 主界面 -->
     <div id="mainPage" class="page hidden">
-        <div class="tech-gradient text-white relative overflow-hidden">
-            <div class="absolute inset-0">
-                <div class="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
-                <div class="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
-            </div>
-            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                <div class="flex flex-col lg:flex-row items-center justify-between">
-                    <div class="text-center lg:text-left mb-10 lg:mb-0">
-                        <h1 class="text-5xl font-bold mb-4">智能建站系统</h1>
-                        <p class="text-xl text-blue-100 mb-2">10分钟打造你的专属企业官网</p>
-                        <p class="text-blue-200">无需编程，一键生成，精美模板任你选</p>
+        <div class="min-h-screen">
+            <div class="bg-white shadow-sm border-b">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-[#165DFF] to-blue-600 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <h1 class="text-xl font-bold text-gray-900">智能建站系统</h1>
                     </div>
-                    <button id="createNewBtn" class="btn-primary text-white px-10 py-5 rounded-2xl font-semibold text-xl flex items-center space-x-3 hover-lift">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">欢迎使用智能建站系统</h2>
+                    <p class="text-gray-600 text-lg">快速创建专业的企业网站</p>
+                </div>
+                <div class="text-center mb-16">
+                    <button id="createNewBtn" class="btn-hover inline-flex items-center space-x-3 bg-[#165DFF] text-white px-8 py-4 rounded-xl font-semibold text-lg">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                         </svg>
                         <span>创建新网站</span>
                     </button>
                 </div>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <h2 class="text-3xl font-bold text-gray-900 mb-8">我的网站</h2>
-            <div id="recentWebsites" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-            <div id="noWebsitesPlaceholder" class="text-center py-20 hidden">
-                <div class="w-32 h-32 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-6">
-                    <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 0 002 2z"></path>
-                    </svg>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-600 mb-2">还没有创建任何网站</h3>
-                <p class="text-gray-400">点击上方按钮开始创建你的第一个网站</p>
-            </div>
-        </div>
-    </div>
-    
-    <div id="createPage" class="page hidden">
-        <div class="bg-white shadow-sm border-b sticky top-0 z-40">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-                <div class="flex items-center justify-between mb-2">
-                    <button id="backToMainFromCreate" class="text-gray-600 hover:text-gray-900 flex items-center space-x-2 hover-lift">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                        </svg>
-                        <span>返回</span>
-                    </button>
-                </div>
-                <div class="flex items-center justify-center space-x-4">
-                    <div class="flex items-center step-indicator" id="step1Indicator">
-                        <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold" id="step1Dot">1</div>
-                        <span class="ml-3 font-medium text-gray-900" id="step1Text">填写信息</span>
-                    </div>
-                    <div class="w-24 h-1 bg-gray-200 rounded" id="line1"></div>
-                    <div class="flex items-center step-indicator" id="step2Indicator">
-                        <div class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold" id="step2Dot">2</div>
-                        <span class="ml-3 font-medium text-gray-500" id="step2Text">选择模板</span>
-                    </div>
-                    <div class="w-24 h-1 bg-gray-200 rounded" id="line2"></div>
-                    <div class="flex items-center step-indicator" id="step3Indicator">
-                        <div class="w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-semibold" id="step3Dot">3</div>
-                        <span class="ml-3 font-medium text-gray-500" id="step3Text">生成网站</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div id="step1Content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div class="grid lg:grid-cols-2 gap-8">
-                <div class="bg-white rounded-2xl shadow-lg p-8">
-                    <div class="flex items-center justify-between mb-8">
-                        <h2 class="text-2xl font-bold text-gray-900">企业信息</h2>
-                        <button id="fillDemoBtn" class="text-blue-600 hover:text-blue-700 font-medium flex items-center space-x-2 hover-lift">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">最近创建的网站</h3>
+                    <div id="recentWebsites" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                    <div id="noWebsitesPlaceholder" class="text-center py-16">
+                        <div class="w-24 h-24 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                             </svg>
-                            <span>一键填充演示数据</span>
-                        </button>
-                    </div>
-                    <div class="space-y-6">
-                        <div><label class="block text-gray-700 font-medium mb-2">企业名称</label><input type="text" id="companyName" class="input-custom w-full px-5 py-4 border border-gray-300 rounded-xl focus:outline-none" placeholder="请输入企业名称"></div>
-                        <div><label class="block text-gray-700 font-medium mb-2">联系电话</label><input type="tel" id="companyPhone" class="input-custom w-full px-5 py-4 border border-gray-300 rounded-xl focus:outline-none" placeholder="请输入联系电话"></div>
-                        <div><label class="block text-gray-700 font-medium mb-2">企业简介</label><textarea id="companyDesc" rows="4" class="input-custom w-full px-5 py-4 border border-gray-300 rounded-xl focus:outline-none resize-none" placeholder="请输入企业简介"></textarea></div>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div><label class="block text-gray-700 font-medium mb-2">邮箱</label><input type="email" id="companyEmail" class="input-custom w-full px-5 py-4 border border-gray-300 rounded-xl focus:outline-none" placeholder="请输入邮箱"></div>
-                            <div><label class="block text-gray-700 font-medium mb-2">详细地址</label><input type="text" id="companyAddress" class="input-custom w-full px-5 py-4 border border-gray-300 rounded-xl focus:outline-none" placeholder="请输入详细地址"></div>
                         </div>
-                        <div>
-                            <label class="block text-gray-700 font-medium mb-2">企业Logo</label>
-                            <div id="logoDropZone" class="drop-zone rounded-xl p-8 text-center cursor-pointer">
-                                <div id="logoPreview" class="hidden"><img id="logoImage" class="w-24 h-24 mx-auto mb-4 rounded-lg object-contain" alt="Logo预览"><button id="removeLogo" class="text-red-500 text-sm hover:text-red-600">删除</button></div>
-                                <div id="logoPlaceholder">
-                                    <svg class="w-12 h-12 mx-auto text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                                    </svg>
-                                    <p class="text-gray-600">拖拽图片到这里或点击上传</p>
-                                    <p class="text-gray-400 text-sm mt-1">支持 JPG、PNG 格式</p>
-                                </div>
-                            </div>
-                            <input type="file" id="logoInput" class="hidden" accept="image/*">
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 font-medium mb-4">轮播图（可选）</label>
-                            <div class="grid md:grid-cols-3 gap-4">
-                                <div id="banner1DropZone" class="drop-zone rounded-xl p-4 text-center cursor-pointer">
-                                    <div id="banner1Preview" class="hidden"><img id="banner1Image" class="w-full h-32 object-cover rounded-lg mb-2" alt="轮播图1预览"><button id="removeBanner1" class="text-red-500 text-sm hover:text-red-600">删除</button></div>
-                                    <div id="banner1Placeholder">
-                                        <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 0 002 2z"></path>
-                                        </svg>
-                                        <p class="text-gray-500 text-xs">图1</p>
-                                    </div>
-                                </div>
-                                <div id="banner2DropZone" class="drop-zone rounded-xl p-4 text-center cursor-pointer">
-                                    <div id="banner2Preview" class="hidden"><img id="banner2Image" class="w-full h-32 object-cover rounded-lg mb-2" alt="轮播图2预览"><button id="removeBanner2" class="text-red-500 text-sm hover:text-red-600">删除</button></div>
-                                    <div id="banner2Placeholder">
-                                        <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 0 002 2z"></path>
-                                        </svg>
-                                        <p class="text-gray-500 text-xs">图2</p>
-                                    </div>
-                                </div>
-                                <div id="banner3DropZone" class="drop-zone rounded-xl p-4 text-center cursor-pointer">
-                                    <div id="banner3Preview" class="hidden"><img id="banner3Image" class="w-full h-32 object-cover rounded-lg mb-2" alt="轮播图3预览"><button id="removeBanner3" class="text-red-500 text-sm hover:text-red-600">删除</button></div>
-                                    <div id="banner3Placeholder">
-                                        <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 0 002 2z"></path>
-                                        </svg>
-                                        <p class="text-gray-500 text-xs">图3</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <input type="file" id="banner1Input" class="hidden" accept="image/*">
-                            <input type="file" id="banner2Input" class="hidden" accept="image/*">
-                            <input type="file" id="banner3Input" class="hidden" accept="image/*">
-                        </div>
-                    </div>
-                    <div class="mt-10 flex justify-end"><button id="toStep2FromInfo" class="btn-primary text-white px-10 py-4 rounded-xl font-semibold text-lg hover-lift">下一步：选择模板</button></div>
-                </div>
-                <div class="bg-white rounded-2xl shadow-lg p-6">
-                    <h3 class="text-lg font-bold text-gray-900 mb-4">实时预览</h3>
-                    <div class="border-2 border-gray-200 rounded-xl overflow-hidden bg-gray-50">
-                        <div class="bg-gray-100 px-4 py-2 border-b flex items-center space-x-2">
-                            <div class="w-3 h-3 rounded-full bg-red-400"></div>
-                            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-                            <div class="w-3 h-3 rounded-full bg-green-400"></div>
-                        </div>
-                        <div id="livePreview" class="h-[600px] overflow-auto p-4">
-                            <div class="text-center text-gray-400 py-20">
-                                <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                </svg>
-                                <p>开始填写信息，这里会显示预览</p>
-                            </div>
-                        </div>
+                        <p class="text-gray-500 text-lg">还没有创建任何网站</p>
+                        <p class="text-gray-400 mt-2">点击上方按钮开始创建</p>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <div id="step2Content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 hidden">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl font-bold text-gray-900">选择模板</h2>
-                <button id="backToStep1FromTemplate" class="text-gray-600 hover:text-gray-900 flex items-center space-x-2 hover-lift">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                    </svg>
-                    <span>返回修改信息</span>
-                </button>
-            </div>
-            <div id="templateGrid" class="grid md:grid-cols-3 gap-8"></div>
-            <div class="mt-12 flex justify-end"><button id="toStep3FromTemplate" class="btn-primary text-white px-10 py-4 rounded-xl font-semibold text-lg hover-lift" disabled>下一步：生成网站</button></div>
-        </div>
-        
-        <div id="step3Content" class="min-h-screen flex items-center justify-center tech-gradient hidden">
-            <div class="text-center text-white">
-                <div class="mb-8"><svg class="w-24 h-24 mx-auto loading-spinner" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg></div>
-                <h2 class="text-3xl font-bold mb-4">正在生成您的网站...</h2>
-                <div id="generationSteps" class="space-y-4 mb-8">
-                    <div class="flex items-center justify-center space-x-3"><div class="w-3 h-3 rounded-full bg-blue-400 pulse-dot"></div><span id="stepText1" class="text-blue-200">加载模板...</span></div>
-                    <div class="flex items-center justify-center space-x-3"><div class="w-3 h-3 rounded-full bg-gray-500" id="stepDot2"></div><span id="stepText2" class="text-gray-400">填充企业信息...</span></div>
-                    <div class="flex items-center justify-center space-x-3"><div class="w-3 h-3 rounded-full bg-gray-500" id="stepDot3"></div><span id="stepText3" class="text-gray-400">生成完整网站...</span></div>
-                </div>
-                <div class="w-64 mx-auto bg-white/20 rounded-full h-2 overflow-hidden"><div id="genProgressBar" class="h-full bg-white rounded-full progress-bar-animated" style="width: 0%"></div></div>
-            </div>
-        </div>
-    </div>
-    
-    <div id="templateModal" class="fixed inset-0 bg-black/90 z-50 hidden">
-        <div class="absolute top-4 right-4 flex items-center space-x-4">
-            <div class="flex bg-gray-800 rounded-lg p-1">
-                <button id="modalPcView" class="px-4 py-2 rounded-lg bg-white text-gray-900 font-medium">PC</button>
-                <button id="modalTabletView" class="px-4 py-2 rounded-lg text-gray-400 font-medium">平板</button>
-                <button id="modalMobileView" class="px-4 py-2 rounded-lg text-gray-400 font-medium">手机</button>
-            </div>
-            <button id="closeModal" class="text-white hover:text-gray-300 p-2 hover-lift">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-        </div>
-        <div class="h-full flex items-center justify-center pt-20 pb-8 px-4">
-            <div id="modalPreviewContainer" class="device-frame-pc"><iframe id="modalPreviewFrame" class="bg-white" style="width: 1024px; height: 600px; border: none;"></iframe></div>
-        </div>
-    </div>
-    
-    <div id="previewPage" class="page hidden min-h-screen bg-gray-100">
-        <div class="bg-white shadow-sm sticky top-0 z-40">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-6">
-                        <button id="backFromPreview" class="text-gray-600 hover:text-gray-900 flex items-center space-x-2 hover-lift">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                            </svg>
-                            <span>返回</span>
-                        </button>
-                        <h1 class="text-xl font-bold text-gray-900">网站预览</h1>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <div class="flex bg-gray-100 rounded-lg p-1">
-                            <button id="previewPcView" class="px-4 py-2 rounded-lg bg-white text-gray-900 font-medium shadow-sm">PC</button>
-                            <button id="previewTabletView" class="px-4 py-2 rounded-lg text-gray-600 font-medium">平板</button>
-                            <button id="previewMobileView" class="px-4 py-2 rounded-lg text-gray-600 font-medium">手机</button>
-                        </div>
-                        <button id="exportFromPreview" class="btn-primary text-white px-6 py-2 rounded-xl font-medium flex items-center space-x-2 hover-lift">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                            </svg>
-                            <span>导出网站</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div id="previewContainer" class="flex justify-center">
-                <div id="previewFrameWrapper" class="device-frame-pc"><iframe id="previewFrame" class="bg-white" style="width: 1024px; height: 700px; border: none;"></iframe></div>
             </div>
         </div>
     </div>
 
+    <!-- 创建网站流程页面 -->
+    <div id="createPage" class="page hidden">
+        <div class="min-h-screen bg-gray-50">
+            <div class="bg-white shadow-sm border-b">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <button id="backToMain" class="text-gray-600 hover:text-gray-900">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            <h1 class="text-xl font-bold text-gray-900">创建新网站</h1>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div id="step1Indicator" class="flex items-center space-x-2">
+                                <div class="w-8 h-8 rounded-full bg-[#165DFF] text-white flex items-center justify-center font-semibold">1</div>
+                                <span class="text-sm font-medium text-gray-900">企业信息</span>
+                            </div>
+                            <div class="w-8 h-0.5 bg-gray-300"></div>
+                            <div id="step2Indicator" class="flex items-center space-x-2">
+                                <div class="w-8 h-8 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-semibold">2</div>
+                                <span class="text-sm font-medium text-gray-500">选择行业</span>
+                            </div>
+                            <div class="w-8 h-0.5 bg-gray-300"></div>
+                            <div id="step3Indicator" class="flex items-center space-x-2">
+                                <div class="w-8 h-8 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-semibold">3</div>
+                                <span class="text-sm font-medium text-gray-500">选择模板</span>
+                            </div>
+                            <div class="w-8 h-0.5 bg-gray-300"></div>
+                            <div id="step4Indicator" class="flex items-center space-x-2">
+                                <div class="w-8 h-8 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-semibold">4</div>
+                                <span class="text-sm font-medium text-gray-500">生成网站</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤1：企业信息 -->
+            <div id="step1" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-8">填写企业信息</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">企业名称</label>
+                            <input type="text" id="companyName" class="input-focus w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none" placeholder="请输入企业名称">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">联系电话</label>
+                            <input type="tel" id="companyPhone" class="input-focus w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none" placeholder="请输入联系电话">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-gray-700 font-medium mb-2">企业简介</label>
+                            <textarea id="companyDesc" rows="4" class="input-focus w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none resize-none" placeholder="请输入企业简介"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">邮箱</label>
+                            <input type="email" id="companyEmail" class="input-focus w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none" placeholder="请输入邮箱">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">详细地址</label>
+                            <input type="text" id="companyAddress" class="input-focus w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none" placeholder="请输入详细地址">
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">企业LOGO</h3>
+                        <div id="logoDropZone" class="drop-zone border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50">
+                            <div id="logoPreview" class="hidden">
+                                <img id="logoImage" class="w-32 h-32 mx-auto mb-4 rounded-lg object-contain" alt="Logo预览">
+                                <button id="removeLogo" class="text-red-500 text-sm hover:text-red-600">删除</button>
+                            </div>
+                            <div id="logoPlaceholder">
+                                <svg class="w-12 h-12 mx-auto text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                </svg>
+                                <p class="text-gray-600">拖拽图片到这里或点击上传</p>
+                                <p class="text-gray-400 text-sm mt-1">支持 JPG、PNG 格式</p>
+                            </div>
+                        </div>
+                        <input type="file" id="logoInput" class="hidden" accept="image/*">
+                    </div>
+                    <div class="mt-8">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">轮播图（3张）</h3>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div id="banner1DropZone" class="drop-zone border-dashed border-gray-300 rounded-xl p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50">
+                                <div id="banner1Preview" class="hidden">
+                                    <img id="banner1Image" class="w-full h-48 object-cover rounded-lg mb-3" alt="轮播图1预览">
+                                    <button id="removeBanner1" class="text-red-500 text-sm hover:text-red-600">删除</button>
+                                </div>
+                                <div id="banner1Placeholder">
+                                    <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                    </svg>
+                                    <p class="text-gray-500 text-sm">轮播图1</p>
+                                </div>
+                            </div>
+                            <div id="banner2DropZone" class="drop-zone border-dashed border-gray-300 rounded-xl p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50">
+                                <div id="banner2Preview" class="hidden">
+                                    <img id="banner2Image" class="w-full h-48 object-cover rounded-lg mb-3" alt="轮播图2预览">
+                                    <button id="removeBanner2" class="text-red-500 text-sm hover:text-red-600">删除</button>
+                                </div>
+                                <div id="banner2Placeholder">
+                                    <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                    </svg>
+                                    <p class="text-gray-500 text-sm">轮播图2</p>
+                                </div>
+                            </div>
+                            <div id="banner3DropZone" class="drop-zone border-dashed border-gray-300 rounded-xl p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50">
+                                <div id="banner3Preview" class="hidden">
+                                    <img id="banner3Image" class="w-full h-48 object-cover rounded-lg mb-3" alt="轮播图3预览">
+                                    <button id="removeBanner3" class="text-red-500 text-sm hover:text-red-600">删除</button>
+                                </div>
+                                <div id="banner3Placeholder">
+                                    <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                    </svg>
+                                    <p class="text-gray-500 text-sm">轮播图3</p>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="file" id="banner1Input" class="hidden" accept="image/*">
+                        <input type="file" id="banner2Input" class="hidden" accept="image/*">
+                        <input type="file" id="banner3Input" class="hidden" accept="image/*">
+                    </div>
+                    <div class="mt-8 flex justify-end">
+                        <button id="toStep2" class="btn-hover bg-[#165DFF] text-white px-8 py-3 rounded-xl font-semibold">下一步</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤2：选择行业 -->
+            <div id="step2" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-8">选择行业</h2>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="industry-card" data-industry="industrial">
+                            <div class="border-2 border-gray-200 rounded-xl p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all">
+                                <div class="w-16 h-16 mx-auto bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">工业制造</h3>
+                                <p class="text-gray-500">专业的工业制造企业网站</p>
+                            </div>
+                        </div>
+                        <div class="industry-card" data-industry="tech">
+                            <div class="border-2 border-gray-200 rounded-xl p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all">
+                                <div class="w-16 h-16 mx-auto bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+                                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">科技互联网</h3>
+                                <p class="text-gray-500">现代化科技企业网站</p>
+                            </div>
+                        </div>
+                        <div class="industry-card" data-industry="business">
+                            <div class="border-2 border-gray-200 rounded-xl p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all">
+                                <div class="w-16 h-16 mx-auto bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-4.686 0-9-1.396-9-3.382 0-.656-.126 1.283-.341 1.885a48.657 48.657 0 004.201 1.822c1.353.607 2.436 1.088 3.14 1.335 1.096.371 2.243.371 3.34 0 .704-.247 1.786-.728 3.136-1.335A48.694 48.694 0 0021 13.255zM15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">商贸服务</h3>
+                                <p class="text-gray-500">专业的商贸服务企业网站</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-8 flex justify-between">
+                        <button id="backToStep1" class="btn-hover bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-semibold">上一步</button>
+                        <button id="toStep3" class="btn-hover bg-[#165DFF] text-white px-8 py-3 rounded-xl font-semibold" disabled>下一步</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤3：选择模板 -->
+            <div id="step3" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-8">选择模板</h2>
+                    <div id="templateGrid" class="grid md:grid-cols-1 gap-8"></div>
+                    <div class="mt-8 flex justify-between">
+                        <button id="backToStep2" class="btn-hover bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-semibold">上一步</button>
+                        <button id="toStep4" class="btn-hover bg-[#165DFF] text-white px-8 py-3 rounded-xl font-semibold" disabled>下一步</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤4：生成网站 -->
+            <div id="step4" class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-8 text-center">
+                    <div class="w-24 h-24 mx-auto bg-gradient-to-br from-[#165DFF] to-blue-600 rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">准备生成网站</h2>
+                    <p class="text-gray-600 mb-8">点击下方按钮，一键生成您的企业网站</p>
+                    <button id="generateBtn" class="btn-hover bg-[#165DFF] text-white px-12 py-4 rounded-xl font-semibold text-lg">一键生成网站</button>
+                    <div id="loadingSection" class="hidden mt-8">
+                        <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                            <div id="progressBar" class="h-full bg-gradient-to-r from-[#165DFF] to-blue-600" style="width: 0%"></div>
+                        </div>
+                        <p class="text-gray-600 mt-4" id="loadingText">正在生成网站...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 预览页面 -->
+    <div id="previewPage" class="page hidden">
+        <div class="min-h-screen bg-gray-100">
+            <div class="bg-white shadow-sm border-b sticky top-0 z-10">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <button id="backFromPreview" class="text-gray-600 hover:text-gray-900">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            <h1 class="text-xl font-bold text-gray-900">网站预览</h1>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="flex bg-gray-100 rounded-lg p-1">
+                                <button id="pcViewBtn" class="px-4 py-2 rounded-lg bg-white text-gray-900 font-medium">PC端</button>
+                                <button id="mobileViewBtn" class="px-4 py-2 rounded-lg text-gray-600 font-medium">移动端</button>
+                            </div>
+                            <button id="exportBtn" class="btn-hover bg-[#165DFF] text-white px-6 py-2 rounded-xl font-semibold flex items-center space-x-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                <span>导出网站</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div id="pcPreview" class="preview-container">
+                    <iframe id="previewFrame" class="w-full h-[800px] bg-white" style="width: 100%; height: 800px; border: none;"></iframe>
+                </div>
+                <div id="mobilePreview" class="hidden flex justify-center">
+                    <div class="mobile-frame">
+                        <iframe id="mobilePreviewFrame" class="w-full h-full bg-white" style="width: 100%; height: 100%; border: none;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模板预览模态框 -->
+    <div id="templateModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden">
+            <div class="flex items-center justify-between p-6 border-b">
+                <h3 id="modalTemplateName" class="text-xl font-bold text-gray-900">模板预览</h3>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="p-6">
+                <img id="modalTemplateImage" class="w-full rounded-xl" alt="模板预览图">
+            </div>
+        </div>
+    </div>
+
+    <!-- 导出成功提示 -->
+    <div id="exportSuccess" class="fixed bottom-8 right-8 bg-green-500 text-white px-6 py-4 rounded-xl shadow-lg hidden">
+        <div class="flex items-center space-x-3">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="font-semibold">导出成功</span>
+        </div>
+    </div>
+
     <script>
-        let currentCreateStep = 1, selectedIndustry = 'tech', selectedTemplate = null, websiteData = { companyName: '', companyDesc: '', companyPhone: '', companyEmail: '', companyAddress: '', logo: null, banners: [null, null, null] }, recentWebsites = [], generatedHtml = '', currentPreviewTemplate = '';
-        const templates = { industrial: { id: 'industrial', name: '工业制造模板', description: '专业稳重的工业制造企业官网', image: 'https://images.unsplash.com/photo-1565043589221-1a51f3f28067?w=800&h=600&fit=crop', file: 'industrial.html', industry: 'industrial' }, tech: { id: 'tech', name: '科技互联网模板', description: '现代化科技企业官网', image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop', file: 'tech.html', industry: 'tech' }, business: { id: 'business', name: '商贸服务模板', description: '商务风格的服务企业官网', image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop', file: 'business.html', industry: 'business' } };
-        const demoData = { companyName: 'King科技', companyDesc: 'King科技是一家专注于人工智能和云计算的高新技术企业，致力于为全球客户提供领先的数字化转型解决方案。', companyPhone: '400-888-8888', companyEmail: 'contact@kingtech.com', companyAddress: '北京市海淀区中关村软件园' };
-        
-        function showPage(pageId) { document.querySelectorAll('[id$="Page"]').forEach(page => { page.classList.add('hidden'); }); document.getElementById(pageId).classList.remove('hidden'); }
-        function updateStepIndicators(step) {
-            [1, 2, 3].forEach(s => {
-                const dot = document.getElementById(`step${s}Dot`), text = document.getElementById(`step${s}Text`), line = document.getElementById(`line${s}`);
-                if (s < step) { dot.classList.remove('bg-gray-200', 'text-gray-600'); dot.classList.add('bg-green-500', 'text-white'); dot.innerHTML = '✓'; text.classList.remove('text-gray-500'); text.classList.add('text-green-600'); }
-                else if (s === step) { dot.classList.remove('bg-gray-200', 'text-gray-600', 'bg-green-500'); dot.classList.add('bg-blue-600', 'text-white'); dot.innerHTML = s; text.classList.remove('text-gray-500', 'text-green-600'); text.classList.add('text-gray-900'); }
-                else { dot.classList.remove('bg-blue-600', 'bg-green-500', 'text-white'); dot.classList.add('bg-gray-200', 'text-gray-600'); dot.innerHTML = s; text.classList.remove('text-gray-900', 'text-green-600'); text.classList.add('text-gray-500'); }
-                if (line && s < 3) { line.classList.remove('bg-blue-600', 'bg-gray-200'); line.classList.add(s < step ? 'bg-green-500' : 'bg-gray-200'); }
-            });
+        let currentStep = 1;
+        let selectedIndustry = null;
+        let selectedTemplate = null;
+        let websiteData = { companyName: '', companyDesc: '', companyPhone: '', companyEmail: '', companyAddress: '', logo: null, banners: [null, null, null] };
+        let recentWebsites = [];
+        let generatedHtml = '';
+
+        // Template configuration
+        const templates = {
+            industrial: {
+                id: 'industrial',
+                name: '工业制造模板',
+                description: '专业的工业制造企业官网模板',
+                image: 'https://images.unsplash.com/photo-1565043589221-1a51f3f28067?w=600&h=400&fit=crop',
+                file: 'industrial.html'
+            },
+            tech: {
+                id: 'tech',
+                name: '科技互联网模板',
+                description: '现代化科技企业官网模板',
+                image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop',
+                file: 'tech.html'
+            },
+            business: {
+                id: 'business',
+                name: '商贸服务模板',
+                description: '专业的商贸服务企业官网模板',
+                image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop',
+                file: 'business.html'
+            }
+        };
+
+        function showPage(pageId) {
+            document.querySelectorAll('[id$="Page"]').forEach(page => { page.classList.add('hidden'); });
+            document.getElementById(pageId).classList.remove('hidden');
         }
-        function showCreateStep(step) { document.getElementById('step1Content').classList.add('hidden'); document.getElementById('step2Content').classList.add('hidden'); document.getElementById('step3Content').classList.add('hidden'); if (step === 1) document.getElementById('step1Content').classList.remove('hidden'); else if (step === 2) { document.getElementById('step2Content').classList.remove('hidden'); renderTemplates(); } else if (step === 3) document.getElementById('step3Content').classList.remove('hidden'); updateStepIndicators(step); currentCreateStep = step; }
-        function showNotification(message, type = 'success') { const notification = document.getElementById('notification'), text = document.getElementById('notificationText'), bar = notification.querySelector('div'); text.textContent = message; bar.classList.remove('bg-green-500', 'bg-blue-500', 'bg-red-500'); if (type === 'success') bar.classList.add('bg-green-500'); else if (type === 'info') bar.classList.add('bg-blue-500'); else if (type === 'error') bar.classList.add('bg-red-500'); notification.classList.remove('hidden'); setTimeout(() => hideNotification(), 4000); }
-        function hideNotification() { document.getElementById('notification').classList.add('hidden'); }
+
+        function showStep(step) {
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`step${i}`).classList.add('hidden');
+                const indicator = document.getElementById(`step${i}Indicator`);
+                if (i < step) {
+                    indicator.querySelector('div').classList.remove('bg-gray-300', 'text-gray-600');
+                    indicator.querySelector('div').classList.add('bg-[#165DFF]', 'text-white');
+                    indicator.querySelector('span').classList.remove('text-gray-500');
+                    indicator.querySelector('span').classList.add('text-gray-900');
+                } else if (i === step) {
+                    indicator.querySelector('div').classList.remove('bg-gray-300', 'text-gray-600');
+                    indicator.querySelector('div').classList.add('bg-[#165DFF]', 'text-white');
+                    indicator.querySelector('span').classList.remove('text-gray-500');
+                    indicator.querySelector('span').classList.add('text-gray-900');
+                } else {
+                    indicator.querySelector('div').classList.add('bg-gray-300', 'text-gray-600');
+                    indicator.querySelector('div').classList.remove('bg-[#165DFF]', 'text-white');
+                    indicator.querySelector('span').classList.add('text-gray-500');
+                    indicator.querySelector('span').classList.remove('text-gray-900');
+                }
+            }
+            document.getElementById(`step${step}`).classList.remove('hidden');
+            currentStep = step;
+        }
+
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            const password = document.getElementById('passwordInput').value;
+            if (password === '123456') {
+                showPage('mainPage');
+                loadRecentWebsites();
+            } else {
+                document.getElementById('loginError').textContent = '密码错误，请重试';
+                document.getElementById('loginError').classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') { document.getElementById('loginBtn').click(); }
+        });
+
+        document.getElementById('createNewBtn').addEventListener('click', function() {
+            showPage('createPage');
+            showStep(1);
+            currentStep = 1;
+            selectedIndustry = null;
+            selectedTemplate = null;
+            websiteData = { companyName: '', companyDesc: '', companyPhone: '', companyEmail: '', companyAddress: '', logo: null, banners: [null, null, null] };
+            document.getElementById('companyName').value = '';
+            document.getElementById('companyPhone').value = '';
+            document.getElementById('companyDesc').value = '';
+            document.getElementById('companyEmail').value = '';
+            document.getElementById('companyAddress').value = '';
+            resetImagePreview('logo');
+            resetImagePreview('banner1');
+            resetImagePreview('banner2');
+            resetImagePreview('banner3');
+        });
+
+        function resetImagePreview(prefix) {
+            const preview = document.getElementById(`${prefix}Preview`);
+            const placeholder = document.getElementById(`${prefix}Placeholder`);
+            if (preview) preview.classList.add('hidden');
+            if (placeholder) placeholder.classList.remove('hidden');
+        }
+
+        document.getElementById('backToMain').addEventListener('click', function() {
+            showPage('mainPage');
+            loadRecentWebsites();
+        });
+
         function setupDropZone(dropZoneId, inputId, previewId, previewImageId, placeholderId, removeBtnId, index) {
-            const dropZone = document.getElementById(dropZoneId), input = document.getElementById(inputId), preview = document.getElementById(previewId), previewImage = document.getElementById(previewImageId), placeholder = document.getElementById(placeholderId), removeBtn = document.getElementById(removeBtnId);
+            const dropZone = document.getElementById(dropZoneId);
+            const input = document.getElementById(inputId);
+            const preview = document.getElementById(previewId);
+            const previewImage = document.getElementById(previewImageId);
+            const placeholder = document.getElementById(placeholderId);
+            const removeBtn = document.getElementById(removeBtnId);
             if (!dropZone || !input) return;
             dropZone.addEventListener('click', () => input.click());
             dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-            dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('drag-over'); if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
-            input.addEventListener('change', (e) => { if (e.target.files.length) handleFile(e.target.files[0]); });
-            function handleFile(file) { if (file.type.startsWith('image/')) { const reader = new FileReader(); reader.onload = (e) => { const dataUrl = e.target.result; previewImage.src = dataUrl; if (index !== undefined) websiteData.banners[index] = dataUrl; else websiteData.logo = dataUrl; preview.classList.remove('hidden'); placeholder.classList.add('hidden'); updateLivePreview(); }; reader.readAsDataURL(file); } }
-            if (removeBtn) removeBtn.addEventListener('click', (e) => { e.stopPropagation(); if (index !== undefined) websiteData.banners[index] = null; else websiteData.logo = null; preview.classList.add('hidden'); placeholder.classList.remove('hidden'); updateLivePreview(); });
-        }
-        function updateLivePreview() {
-            const preview = document.getElementById('livePreview'), name = document.getElementById('companyName').value || '您的企业名称', phone = document.getElementById('companyPhone').value || '联系电话', email = document.getElementById('companyEmail').value || '企业邮箱', address = document.getElementById('companyAddress').value || '企业地址', desc = document.getElementById('companyDesc').value || '企业简介将显示在这里...';
-            preview.innerHTML = `<div class="bg-white rounded-lg shadow"><div class="bg-gradient-to-r from-blue-600 to-blue-800 p-4 rounded-t-lg"><div class="flex items-center space-x-3">${websiteData.logo ? `<img src="${websiteData.logo}" class="w-12 h-12 rounded object-contain bg-white">` : '<div class="w-12 h-12 bg-white/20 rounded flex items-center justify-center text-white font-bold">LOGO</div>'}<div class="text-white"><div class="font-bold text-lg">${name}</div></div></div></div><div class="p-4 space-y-3"><div class="flex items-start space-x-3"><svg class="w-5 h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg><span class="text-gray-700">${phone}</span></div><div class="flex items-start space-x-3"><svg class="w-5 h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 0 002 2z"></path></svg><span class="text-gray-700">${email}</span></div><div class="flex items-start space-x-3"><svg class="w-5 h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg><span class="text-gray-700">${address}</span></div><div class="pt-3 border-t"><p class="text-gray-600 text-sm">${desc}</p></div>${websiteData.banners[0] ? `<div class="mt-3"><img src="${websiteData.banners[0]}" class="w-full h-32 object-cover rounded"></div>` : ''}</div></div>`;
-        }
-        function renderTemplates() {
-            const grid = document.getElementById('templateGrid'); grid.innerHTML = '';
-            Object.values(templates).forEach(template => {
-                const card = document.createElement('div'); card.className = `template-card bg-white rounded-2xl overflow-hidden cursor-pointer border-4 ${selectedTemplate === template.id ? 'border-blue-500 selected' : 'border-transparent'}`; card.dataset.templateId = template.id;
-                card.innerHTML = `<div class="aspect-video bg-gray-100 overflow-hidden"><img src="${template.image}" alt="${template.name}" class="w-full h-full object-cover"></div><div class="p-6"><h3 class="text-xl font-bold text-gray-900 mb-2">${template.name}</h3><p class="text-gray-600 mb-4">${template.description}</p><button class="text-blue-600 font-medium hover:text-blue-700 preview-template-btn flex items-center space-x-1"><span>预览模板</span><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></button></div>`;
-                card.addEventListener('click', (e) => { if (e.target.closest('.preview-template-btn')) { openTemplatePreview(template); return; } selectTemplate(template.id); });
-                grid.appendChild(card);
-            });
-        }
-        function selectTemplate(templateId) { selectedTemplate = templateId; document.querySelectorAll('.template-card').forEach(card => { if (card.dataset.templateId === templateId) { card.classList.add('selected', 'border-blue-500'); card.classList.remove('border-transparent'); } else { card.classList.remove('selected', 'border-blue-500'); card.classList.add('border-transparent'); } }); document.getElementById('toStep3FromTemplate').disabled = false; }
-        async function openTemplatePreview(template) { const modal = document.getElementById('templateModal'); modal.classList.remove('hidden'); currentPreviewTemplate = template.id; try { const response = await fetch(template.file); const html = await response.text(); document.getElementById('modalPreviewFrame').srcdoc = html; } catch (e) { console.error('Failed to load template:', e); } }
-        function setModalDeviceView(view) {
-            const container = document.getElementById('modalPreviewContainer'), frame = document.getElementById('modalPreviewFrame');
-            container.classList.remove('device-frame-pc', 'device-frame-tablet', 'device-frame-mobile');
-            if (view === 'pc') { container.classList.add('device-frame-pc'); frame.style.width = '1024px'; frame.style.height = '600px'; }
-            else if (view === 'tablet') { container.classList.add('device-frame-tablet'); frame.style.width = '768px'; frame.style.height = '800px'; }
-            else { container.classList.add('device-frame-mobile'); frame.style.width = '375px'; frame.style.height = '667px'; }
-            ['Pc', 'Tablet', 'Mobile'].forEach(v => { const btn = document.getElementById(`modal${v}View`); if (v.toLowerCase() === view) { btn.classList.add('bg-white', 'text-gray-900'); btn.classList.remove('text-gray-400'); } else { btn.classList.remove('bg-white', 'text-gray-900'); btn.classList.add('text-gray-400'); } });
-        }
-        function setPreviewDeviceView(view) {
-            const wrapper = document.getElementById('previewFrameWrapper'), frame = document.getElementById('previewFrame');
-            wrapper.classList.remove('device-frame-pc', 'device-frame-tablet', 'device-frame-mobile');
-            if (view === 'pc') { wrapper.classList.add('device-frame-pc'); frame.style.width = '1024px'; frame.style.height = '700px'; }
-            else if (view === 'tablet') { wrapper.classList.add('device-frame-tablet'); frame.style.width = '768px'; frame.style.height = '800px'; }
-            else { wrapper.classList.add('device-frame-mobile'); frame.style.width = '375px'; frame.style.height = '667px'; }
-            ['Pc', 'Tablet', 'Mobile'].forEach(v => { const btn = document.getElementById(`preview${v}View`); if (v.toLowerCase() === view) { btn.classList.add('bg-white', 'text-gray-900', 'shadow-sm'); btn.classList.remove('text-gray-600'); } else { btn.classList.remove('bg-white', 'text-gray-900', 'shadow-sm'); btn.classList.add('text-gray-600'); } });
-        }
-        function fillTemplate(html, data, industry) {
-            let filled = html; const companyName = data.companyName || '您的企业名称', companyDesc = data.companyDesc || '这是您的企业简介，描述您的企业业务和优势。', companyPhone = data.companyPhone || '400-000-0000', companyEmail = data.companyEmail || 'contact@example.com', companyAddress = data.companyAddress || '您的企业地址';
-            filled = filled.replace(/企业名称/g, companyName); filled = filled.replace(/商贸服务/g, companyName); filled = filled.replace(/TECHNOLOGY/g, companyName);
-            filled = filled.replace(/致力于为客户提供高品质的工业制造产品和解决方案/g, companyDesc); filled = filled.replace(/提供一站式软件开发和云服务解决方案/g, companyDesc); filled = filled.replace(/为企业提供采购、物流、仓储、销售全链条服务/g, companyDesc);
-            filled = filled.replace(/400-123-4567/g, companyPhone); filled = filled.replace(/企业电话/g, companyPhone);
-            filled = filled.replace(/contact@techcompany.com/g, companyEmail); filled = filled.replace(/contact@business.com/g, companyEmail); filled = filled.replace(/企业邮箱/g, companyEmail);
-            filled = filled.replace(/上海市浦东新区张江高科技园区/g, companyAddress); filled = filled.replace(/企业地址/g, companyAddress);
-            if (data.logo) {
-                if (industry === 'industrial') { filled = filled.replace(/<div class="text-2xl font-bold text-white transition-colors duration-300 nav-logo">企业名称<\/div>/g, `<img src="${data.logo}" alt="Logo" class="h-10 w-auto nav-logo">`); filled = filled.replace(/<div class="text-2xl font-bold mb-4 text-\[#0F52BA\]">企业名称<\/div>/g, `<img src="${data.logo}" alt="Logo" class="h-12 w-auto mb-4">`); }
-                else if (industry === 'tech') { filled = filled.replace(/<div class="text-2xl font-bold text-white transition-colors duration-300 nav-logo">TECHNOLOGY<\/div>/g, `<img src="${data.logo}" alt="Logo" class="h-10 w-auto nav-logo">`); filled = filled.replace(/<div class="text-2xl font-bold mb-4">TECHNOLOGY<\/div>/g, `<img src="${data.logo}" alt="Logo" class="h-12 w-auto mb-4">`); }
-                else if (industry === 'business') { filled = filled.replace(/<div class="text-2xl font-bold text-\[#00B42A\]">商贸服务<\/div>/g, `<img src="${data.logo}" alt="Logo" class="h-10 w-auto">`); filled = filled.replace(/<div class="text-2xl font-bold mb-4 text-\[#00B42A\]">商贸服务<\/div>/g, `<img src="${data.logo}" alt="Logo" class="h-12 w-auto mb-4">`); }
-            }
-            const bannerUrl = data.banners[0] || data.banners[1] || data.banners[2];
-            if (bannerUrl) {
-                if (industry === 'industrial') filled = filled.replace(/<div class="hero-gradient min-h-\[700px\] flex items-center">/g, `<div class="min-h-[700px] flex items-center relative"><div class="absolute inset-0 bg-cover bg-center" style="background-image: url('${bannerUrl}')"></div><div class="absolute inset-0 bg-gradient-to-br from-[#0F52BA]/90 to-[#1a3a6e]/90"></div>`);
-                else if (industry === 'tech') filled = filled.replace(/<section id="home" class="hero-gradient min-h-screen flex items-center justify-center">/g, `<section id="home" class="min-h-screen flex items-center justify-center relative"><div class="absolute inset-0 bg-cover bg-center" style="background-image: url('${bannerUrl}')"></div><div class="absolute inset-0 bg-gradient-to-br from-[#667eea]/90 to-[#764ba2]/90"></div>`);
-                // 商业模板暂时先不替换背景图，避免正则问题
-            }
-            return filled;
-        }
-        async function generateWebsite() {
-            showCreateStep(3); 
-            const progressBar = document.getElementById('genProgressBar'), steps = [{ text: '加载模板...', progress: 33 }, { text: '填充企业信息...', progress: 66 }, { text: '生成完整网站...', progress: 100 }];
-            
-            // 确保selectedTemplate有值，如果没有，默认选第一个
-            if (!selectedTemplate) {
-                selectedTemplate = 'tech'; // 默认选科技模板
-            }
-            
-            for (let i = 0; i < steps.length; i++) {
-                if (i > 0) { 
-                    document.getElementById(`stepDot${i + 1}`).classList.remove('bg-gray-500'); 
-                    document.getElementById(`stepDot${i + 1}`).classList.add('bg-blue-400', 'pulse-dot'); 
-                    document.getElementById(`stepText${i + 1}`).classList.remove('text-gray-400'); 
-                    document.getElementById(`stepText${i + 1}`).classList.add('text-blue-200'); 
-                }
-                document.getElementById(`stepText${i + 1}`).textContent = steps[i].text; 
-                progressBar.style.width = steps[i].progress + '%';
-                await new Promise(r => setTimeout(r, 1000));
-                if (i > 0) { 
-                    document.getElementById(`stepDot${i}`).classList.remove('bg-blue-400', 'pulse-dot'); 
-                    document.getElementById(`stepDot${i}`).classList.add('bg-green-400'); 
-                    document.getElementById(`stepText${i}`).classList.remove('text-blue-200'); 
-                    document.getElementById(`stepText${i}`).classList.add('text-green-200'); 
+            dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('drag-over'); });
+            dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('drag-over'); if (e.dataTransfer.files.length) { handleFile(e.dataTransfer.files[0]); } });
+            input.addEventListener('change', (e) => { if (e.target.files.length) { handleFile(e.target.files[0]); } });
+            function handleFile(file) {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const dataUrl = e.target.result;
+                        previewImage.src = dataUrl;
+                        if (index !== undefined) { websiteData.banners[index] = dataUrl; } else { websiteData.logo = dataUrl; }
+                        preview.classList.remove('hidden');
+                        placeholder.classList.add('hidden');
+                    };
+                    reader.readAsDataURL(file);
                 }
             }
-            try {
-                console.log('Selected template:', selectedTemplate);
-                const template = templates[selectedTemplate];
-                console.log('Template file:', template.file);
-                const response = await fetch(template.file);
-                
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch template: ${response.status}`);
-                }
-                
-                let templateHtml = await response.text();
-                console.log('Template loaded, length:', templateHtml.length);
-                
-                generatedHtml = fillTemplate(templateHtml, websiteData, template.industry);
-                console.log('Template filled');
-                
-                const newWebsite = { 
-                    id: Date.now(), 
-                    name: websiteData.companyName || '未命名网站', 
-                    industry: template.industry, 
-                    template: selectedTemplate, 
-                    createdAt: new Date().toISOString(), 
-                    html: generatedHtml, 
-                    thumbnail: template.image 
-                };
-                
-                recentWebsites.unshift(newWebsite); 
-                localStorage.setItem('websites', JSON.stringify(recentWebsites));
-                
-                showPage('previewPage'); 
-                document.getElementById('previewFrame').srcdoc = generatedHtml; 
-                showNotification('网站生成成功！');
-            } catch (error) { 
-                console.error('Error generating website:', error); 
-                showNotification('生成网站时出错，请重试: ' + error.message, 'error'); 
-                showCreateStep(2); 
-            }
-        }
-        function loadRecentWebsites() {
-            const saved = localStorage.getItem('websites'); if (saved) recentWebsites = JSON.parse(saved);
-            const container = document.getElementById('recentWebsites'), placeholder = document.getElementById('noWebsitesPlaceholder');
-            if (recentWebsites.length === 0) { container.innerHTML = ''; placeholder.classList.remove('hidden'); }
-            else {
-                placeholder.classList.add('hidden'); container.innerHTML = ''; const industryNames = { industrial: '工业制造', tech: '科技互联网', business: '商贸服务' };
-                recentWebsites.forEach(site => {
-                    const card = document.createElement('div'); card.className = 'bg-white rounded-2xl shadow-lg overflow-hidden hover-lift cursor-pointer';
-                    card.innerHTML = `<div class="aspect-video bg-gray-100"><img src="${site.thumbnail || templates[site.template]?.image || ''}" alt="${site.name}" class="w-full h-full object-cover"></div><div class="p-6"><h3 class="font-bold text-xl text-gray-900 mb-2">${site.name}</h3><p class="text-gray-500 mb-4">${industryNames[site.industry] || '未分类'}</p><div class="flex items-center justify-between"><span class="text-gray-400 text-sm">${new Date(site.createdAt).toLocaleDateString()}</span><div class="flex items-center space-x-2"><button class="edit-site-btn p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg" data-id="${site.id}"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button><button class="export-site-btn p-2 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-lg" data-id="${site.id}"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg></button></div></div></div>`;
-                    card.addEventListener('click', (e) => { if (e.target.closest('.edit-site-btn') || e.target.closest('.export-site-btn')) return; generatedHtml = site.html; showPage('previewPage'); document.getElementById('previewFrame').srcdoc = site.html; });
-                    card.querySelector('.edit-site-btn').addEventListener('click', (e) => { e.stopPropagation(); showNotification('编辑功能开发中', 'info'); });
-                    card.querySelector('.export-site-btn').addEventListener('click', (e) => { e.stopPropagation(); exportWebsite(site.html, site.name); });
-                    container.appendChild(card);
+            if (removeBtn) {
+                removeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (index !== undefined) { websiteData.banners[index] = null; } else { websiteData.logo = null; }
+                    preview.classList.add('hidden');
+                    placeholder.classList.remove('hidden');
                 });
             }
         }
-        async function exportWebsite(html, name) {
-            showNotification('正在导出...', 'info');
-            try {
-                const zip = new JSZip(); const fileName = `${name || 'website'}.html`; zip.file(fileName, html);
-                const content = await zip.generateAsync({ type: 'blob' });
-                const url = URL.createObjectURL(content); const a = document.createElement('a'); a.href = url; a.download = `${name || 'website'}.zip`; a.click(); URL.revokeObjectURL(url);
-                showNotification('导出成功！');
-            } catch (error) { console.error('Export error:', error); showNotification('导出失败', 'error'); }
-        }
-        
-        document.getElementById('loginBtn').addEventListener('click', () => { const password = document.getElementById('passwordInput').value; if (password === '123456') { showPage('mainPage'); loadRecentWebsites(); } else { document.getElementById('loginError').textContent = '密码错误，请重试'; document.getElementById('loginError').classList.remove('hidden'); } });
-        document.getElementById('passwordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') document.getElementById('loginBtn').click(); });
-        document.getElementById('createNewBtn').addEventListener('click', () => { showPage('createPage'); showCreateStep(1); currentCreateStep = 1; selectedIndustry = 'tech'; selectedTemplate = null; websiteData = { companyName: '', companyDesc: '', companyPhone: '', companyEmail: '', companyAddress: '', logo: null, banners: [null, null, null] }; document.getElementById('companyName').value = ''; document.getElementById('companyPhone').value = ''; document.getElementById('companyDesc').value = ''; document.getElementById('companyEmail').value = ''; document.getElementById('companyAddress').value = ''; ['logo', 'banner1', 'banner2', 'banner3'].forEach(id => { const preview = document.getElementById(`${id}Preview`), placeholder = document.getElementById(`${id}Placeholder`); if (preview) preview.classList.add('hidden'); if (placeholder) placeholder.classList.remove('hidden'); }); updateLivePreview(); });
-        document.getElementById('backToMainFromCreate').addEventListener('click', () => { showPage('mainPage'); loadRecentWebsites(); });
         setupDropZone('logoDropZone', 'logoInput', 'logoPreview', 'logoImage', 'logoPlaceholder', 'removeLogo');
         setupDropZone('banner1DropZone', 'banner1Input', 'banner1Preview', 'banner1Image', 'banner1Placeholder', 'removeBanner1', 0);
         setupDropZone('banner2DropZone', 'banner2Input', 'banner2Preview', 'banner2Image', 'banner2Placeholder', 'removeBanner2', 1);
         setupDropZone('banner3DropZone', 'banner3Input', 'banner3Preview', 'banner3Image', 'banner3Placeholder', 'removeBanner3', 2);
-        ['companyName', 'companyPhone', 'companyDesc', 'companyEmail', 'companyAddress'].forEach(id => { document.getElementById(id).addEventListener('input', updateLivePreview); });
-        document.getElementById('fillDemoBtn').addEventListener('click', () => { document.getElementById('companyName').value = demoData.companyName; document.getElementById('companyPhone').value = demoData.companyPhone; document.getElementById('companyDesc').value = demoData.companyDesc; document.getElementById('companyEmail').value = demoData.companyEmail; document.getElementById('companyAddress').value = demoData.companyAddress; websiteData.companyName = demoData.companyName; websiteData.companyPhone = demoData.companyPhone; websiteData.companyDesc = demoData.companyDesc; websiteData.companyEmail = demoData.companyEmail; websiteData.companyAddress = demoData.companyAddress; updateLivePreview(); showNotification('已填充演示数据'); });
-        document.getElementById('toStep2FromInfo').addEventListener('click', () => { websiteData.companyName = document.getElementById('companyName').value; websiteData.companyPhone = document.getElementById('companyPhone').value; websiteData.companyDesc = document.getElementById('companyDesc').value; websiteData.companyEmail = document.getElementById('companyEmail').value; websiteData.companyAddress = document.getElementById('companyAddress').value; showCreateStep(2); });
-        document.getElementById('backToStep1FromTemplate').addEventListener('click', () => showCreateStep(1));
-        document.getElementById('toStep3FromTemplate').addEventListener('click', () => generateWebsite());
-        document.getElementById('closeModal').addEventListener('click', () => document.getElementById('templateModal').classList.add('hidden'));
-        document.getElementById('templateModal').addEventListener('click', (e) => { if (e.target === document.getElementById('templateModal')) document.getElementById('templateModal').classList.add('hidden'); });
-        document.getElementById('modalPcView').addEventListener('click', () => setModalDeviceView('pc'));
-        document.getElementById('modalTabletView').addEventListener('click', () => setModalDeviceView('tablet'));
-        document.getElementById('modalMobileView').addEventListener('click', () => setModalDeviceView('mobile'));
-        document.getElementById('previewPcView').addEventListener('click', () => setPreviewDeviceView('pc'));
-        document.getElementById('previewTabletView').addEventListener('click', () => setPreviewDeviceView('tablet'));
-        document.getElementById('previewMobileView').addEventListener('click', () => setPreviewDeviceView('mobile'));
-        document.getElementById('exportFromPreview').addEventListener('click', () => exportWebsite(generatedHtml, websiteData.companyName || 'website'));
-        document.getElementById('backFromPreview').addEventListener('click', () => { showPage('mainPage'); loadRecentWebsites(); });
+
+        document.getElementById('toStep2').addEventListener('click', function() {
+            websiteData.companyName = document.getElementById('companyName').value;
+            websiteData.companyDesc = document.getElementById('companyDesc').value;
+            websiteData.companyPhone = document.getElementById('companyPhone').value;
+            websiteData.companyEmail = document.getElementById('companyEmail').value;
+            websiteData.companyAddress = document.getElementById('companyAddress').value;
+            showStep(2);
+        });
+
+        document.getElementById('backToStep1').addEventListener('click', function() { showStep(1); });
+
+        document.querySelectorAll('.industry-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.industry-card div').forEach(el => { el.classList.remove('border-blue-500', 'bg-blue-50'); el.classList.add('border-gray-200'); });
+                this.querySelector('div').classList.add('border-blue-500', 'bg-blue-50');
+                this.querySelector('div').classList.remove('border-gray-200');
+                selectedIndustry = this.dataset.industry;
+                document.getElementById('toStep3').disabled = false;
+            });
+        });
+
+        document.getElementById('toStep3').addEventListener('click', function() { showStep(3); renderTemplates(); });
+
+        document.getElementById('backToStep2').addEventListener('click', function() { showStep(2); });
+
+        function renderTemplates() {
+            const templateGrid = document.getElementById('templateGrid');
+            templateGrid.innerHTML = '';
+            const template = templates[selectedIndustry];
+            if (template) {
+                const templateCard = document.createElement('div');
+                templateCard.className = 'template-card bg-white border-2 border-gray-200 rounded-xl overflow-hidden cursor-pointer';
+                templateCard.dataset.templateId = template.id;
+                templateCard.innerHTML = `
+                    <div class="aspect-video bg-gray-100">
+                        <img src="${template.image}" alt="${template.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">${template.name}</h3>
+                        <p class="text-gray-600 mb-4">${template.description}</p>
+                        <button class="text-[#165DFF] text-sm font-medium preview-template-btn" data-id="${template.id}" data-name="${template.name}" data-image="${template.image}">点击预览 →</button>
+                    </div>
+                `;
+                templateCard.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('preview-template-btn')) return;
+                    document.querySelectorAll('.template-card').forEach(card => { card.classList.remove('border-[#165DFF]', 'selected'); card.classList.add('border-gray-200'); });
+                    this.classList.add('border-[#165DFF]', 'selected');
+                    this.classList.remove('border-gray-200');
+                    selectedTemplate = template.id;
+                    document.getElementById('toStep4').disabled = false;
+                });
+                templateCard.querySelector('.preview-template-btn').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    document.getElementById('modalTemplateName').textContent = this.dataset.name;
+                    document.getElementById('modalTemplateImage').src = this.dataset.image;
+                    document.getElementById('templateModal').classList.remove('hidden');
+                });
+                templateGrid.appendChild(templateCard);
+            }
+        }
+
+        document.getElementById('closeModal').addEventListener('click', function() { document.getElementById('templateModal').classList.add('hidden'); });
+
+        document.getElementById('templateModal').addEventListener('click', function(e) { if (e.target === this) { document.getElementById('templateModal').classList.add('hidden'); } });
+
+        document.getElementById('toStep4').addEventListener('click', function() { showStep(4); });
+
+        document.getElementById('generateBtn').addEventListener('click', async function() {
+            document.getElementById('generateBtn').classList.add('hidden');
+            document.getElementById('loadingSection').classList.remove('hidden');
+            const progressBar = document.getElementById('progressBar');
+            progressBar.classList.add('progress-bar');
+            progressBar.style.width = '100%';
+            await generateWebsite();
+        });
+
+        async function generateWebsite() {
+            try {
+                const template = templates[selectedIndustry];
+                const response = await fetch(template.file);
+                let templateHtml = await response.text();
+                generatedHtml = fillTemplate(templateHtml);
+                const newWebsite = { id: Date.now(), name: websiteData.companyName || '未命名网站', industry: selectedIndustry, template: selectedTemplate, createdAt: new Date().toISOString(), html: generatedHtml };
+                recentWebsites.unshift(newWebsite);
+                localStorage.setItem('websites', JSON.stringify(recentWebsites));
+                showPage('previewPage');
+                showPreview(generatedHtml);
+            } catch (error) {
+                console.error('Error generating website:', error);
+                alert('生成网站时出错，请重试');
+            }
+        }
+
+        function fillTemplate(html) {
+            let filled = html;
+            const companyName = websiteData.companyName || '您的企业名称';
+            const companyDesc = websiteData.companyDesc || '这是您的企业简介，描述您的企业业务和优势。';
+            const companyPhone = websiteData.companyPhone || '400-000-0000';
+            const companyEmail = websiteData.companyEmail || 'contact@example.com';
+            const companyAddress = websiteData.companyAddress || '您的企业地址';
+
+            // Replace text placeholders
+            filled = filled.replace(/企业名称/g, companyName);
+            filled = filled.replace(/商贸服务/g, companyName);
+            filled = filled.replace(/TECHNOLOGY/g, companyName);
+            filled = filled.replace(/致力于为客户提供高品质的工业制造产品和解决方案/g, companyDesc);
+            filled = filled.replace(/提供一站式软件开发和云服务解决方案/g, companyDesc);
+            filled = filled.replace(/为企业提供采购、物流、仓储、销售全链条服务/g, companyDesc);
+            filled = filled.replace(/400-123-4567/g, companyPhone);
+            filled = filled.replace(/企业电话/g, companyPhone);
+            filled = filled.replace(/contact@techcompany.com/g, companyEmail);
+            filled = filled.replace(/contact@business.com/g, companyEmail);
+            filled = filled.replace(/企业邮箱/g, companyEmail);
+            filled = filled.replace(/上海市浦东新区张江高科技园区/g, companyAddress);
+            filled = filled.replace(/企业地址/g, companyAddress);
+
+            // Replace logo
+            if (websiteData.logo) {
+                if (selectedIndustry === 'industrial') {
+                    filled = filled.replace(/<div class="text-2xl font-bold text-white transition-colors duration-300 nav-logo">企业名称<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-10 w-auto nav-logo">`);
+                    filled = filled.replace(/<div class="text-2xl font-bold mb-4 text-\[#0F52BA\]">企业名称<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-12 w-auto mb-4">`);
+                } else if (selectedIndustry === 'tech') {
+                    filled = filled.replace(/<div class="text-2xl font-bold text-white transition-colors duration-300 nav-logo">TECHNOLOGY<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-10 w-auto nav-logo">`);
+                    filled = filled.replace(/<div class="text-2xl font-bold mb-4">TECHNOLOGY<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-12 w-auto mb-4">`);
+                } else if (selectedIndustry === 'business') {
+                    filled = filled.replace(/<div class="text-2xl font-bold text-\[#00B42A\]">商贸服务<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-10 w-auto">`);
+                    filled = filled.replace(/<div class="text-2xl font-bold mb-4 text-\[#00B42A\]">商贸服务<\/div>/g, `<img src="${websiteData.logo}" alt="Logo" class="h-12 w-auto mb-4">`);
+                }
+            }
+
+            // Replace banner
+            const bannerUrl = websiteData.banners[0] || websiteData.banners[1] || websiteData.banners[2];
+            if (bannerUrl) {
+                if (selectedIndustry === 'industrial') {
+                    filled = filled.replace(/<div class="hero-gradient min-h-\[700px\] flex items-center">/g, `<div class="min-h-[700px] flex items-center relative"><div class="absolute inset-0 bg-cover bg-center" style="background-image: url('${bannerUrl}')"></div><div class="absolute inset-0 bg-gradient-to-br from-[#0F52BA]/90 to-[#1a3a6e]/90"></div>`);
+                } else if (selectedIndustry === 'tech') {
+                    filled = filled.replace(/<section id="home" class="hero-gradient min-h-screen flex items-center justify-center">/g, `<section id="home" class="min-h-screen flex items-center justify-center relative"><div class="absolute inset-0 bg-cover bg-center" style="background-image: url('${bannerUrl}')"></div><div class="absolute inset-0 bg-gradient-to-br from-[#667eea]/90 to-[#764ba2]/90"></div>`);
+                } else if (selectedIndustry === 'business') {
+                    filled = filled.replace(/<div class="relative min-h-\[600px\] flex items-center">[\s\S]*?<div class="absolute inset-0">[\s\S]*?<\/div>/g, `<div class="relative min-h-[600px] flex items-center"><div class="absolute inset-0 bg-cover bg-center" style="background-image: url('${bannerUrl}')"></div><div class="absolute inset-0 bg-black/60"></div>`);
+                }
+            }
+
+            return filled;
+        }
+
+        function showPreview(html) {
+            const pcFrame = document.getElementById('previewFrame');
+            const mobileFrame = document.getElementById('mobilePreviewFrame');
+            pcFrame.srcdoc = html;
+            mobileFrame.srcdoc = html;
+        }
+
+        document.getElementById('pcViewBtn').addEventListener('click', function() {
+            document.getElementById('pcPreview').classList.remove('hidden');
+            document.getElementById('mobilePreview').classList.add('hidden');
+            this.classList.add('bg-white', 'text-gray-900');
+            this.classList.remove('text-gray-600');
+            document.getElementById('mobileViewBtn').classList.remove('bg-white', 'text-gray-900');
+            document.getElementById('mobileViewBtn').classList.add('text-gray-600');
+        });
+
+        document.getElementById('mobileViewBtn').addEventListener('click', function() {
+            document.getElementById('pcPreview').classList.add('hidden');
+            document.getElementById('mobilePreview').classList.remove('hidden');
+            this.classList.add('bg-white', 'text-gray-900');
+            this.classList.remove('text-gray-600');
+            document.getElementById('pcViewBtn').classList.remove('bg-white', 'text-gray-900');
+            document.getElementById('pcViewBtn').classList.add('text-gray-600');
+        });
+
+        document.getElementById('exportBtn').addEventListener('click', async function() {
+            const zip = new JSZip();
+            const fileName = `${websiteData.companyName || 'website'}.html`;
+            zip.file(fileName, generatedHtml);
+            const content = await zip.generateAsync({ type: 'blob' });
+            const url = URL.createObjectURL(content);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${websiteData.companyName || 'website'}.zip`;
+            a.click();
+            URL.revokeObjectURL(url);
+            document.getElementById('exportSuccess').classList.remove('hidden');
+            setTimeout(() => { document.getElementById('exportSuccess').classList.add('hidden'); }, 3000);
+        });
+
+        document.getElementById('backFromPreview').addEventListener('click', function() { showPage('mainPage'); loadRecentWebsites(); });
+
+        function loadRecentWebsites() {
+            const saved = localStorage.getItem('websites');
+            if (saved) { recentWebsites = JSON.parse(saved); }
+            const container = document.getElementById('recentWebsites');
+            const placeholder = document.getElementById('noWebsitesPlaceholder');
+            if (recentWebsites.length === 0) {
+                container.innerHTML = '';
+                placeholder.classList.remove('hidden');
+            } else {
+                placeholder.classList.add('hidden');
+                container.innerHTML = '';
+                const industryNames = { industrial: '工业制造', tech: '科技互联网', business: '商贸服务' };
+                recentWebsites.forEach(site => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-shadow';
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-gray-900 mb-1">${site.name}</h3>
+                        <p class="text-gray-500 text-sm mb-4">${industryNames[site.industry] || '未分类'}</p>
+                        <p class="text-gray-400 text-xs">${new Date(site.createdAt).toLocaleDateString()}</p>
+                    `;
+                    card.addEventListener('click', function() {
+                        showPage('previewPage');
+                        showPreview(site.html);
+                        generatedHtml = site.html;
+                    });
+                    container.appendChild(card);
+                });
+            }
+        }
     </script>
 </body>
 </html>
