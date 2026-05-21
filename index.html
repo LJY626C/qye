@@ -401,24 +401,73 @@
             if (bannerUrl) {
                 if (industry === 'industrial') filled = filled.replace(/<div class="hero-gradient min-h-\[700px\] flex items-center">/g, `<div class="min-h-[700px] flex items-center relative"><div class="absolute inset-0 bg-cover bg-center" style="background-image: url('${bannerUrl}')"></div><div class="absolute inset-0 bg-gradient-to-br from-[#0F52BA]/90 to-[#1a3a6e]/90"></div>`);
                 else if (industry === 'tech') filled = filled.replace(/<section id="home" class="hero-gradient min-h-screen flex items-center justify-center">/g, `<section id="home" class="min-h-screen flex items-center justify-center relative"><div class="absolute inset-0 bg-cover bg-center" style="background-image: url('${bannerUrl}')"></div><div class="absolute inset-0 bg-gradient-to-br from-[#667eea]/90 to-[#764ba2]/90"></div>`);
-                else if (industry === 'business') filled = filled.replace(/<div class="relative min-h-\[600px\] flex items-center">[\s\S]*?<div class="absolute inset-0">[\s\S]*?<\/div>/g, `<div class="relative min-h-[600px] flex items-center"><div class="absolute inset-0 bg-cover bg-center" style="background-image: url('${bannerUrl}')"></div><div class="absolute inset-0 bg-black/60"></div>`);
+                // 商业模板暂时先不替换背景图，避免正则问题
             }
             return filled;
         }
         async function generateWebsite() {
-            showCreateStep(3); const progressBar = document.getElementById('genProgressBar'), steps = [{ text: '加载模板...', progress: 33 }, { text: '填充企业信息...', progress: 66 }, { text: '生成完整网站...', progress: 100 }];
+            showCreateStep(3); 
+            const progressBar = document.getElementById('genProgressBar'), steps = [{ text: '加载模板...', progress: 33 }, { text: '填充企业信息...', progress: 66 }, { text: '生成完整网站...', progress: 100 }];
+            
+            // 确保selectedTemplate有值，如果没有，默认选第一个
+            if (!selectedTemplate) {
+                selectedTemplate = 'tech'; // 默认选科技模板
+            }
+            
             for (let i = 0; i < steps.length; i++) {
-                if (i > 0) { document.getElementById(`stepDot${i + 1}`).classList.remove('bg-gray-500'); document.getElementById(`stepDot${i + 1}`).classList.add('bg-blue-400', 'pulse-dot'); document.getElementById(`stepText${i + 1}`).classList.remove('text-gray-400'); document.getElementById(`stepText${i + 1}`).classList.add('text-blue-200'); }
-                document.getElementById(`stepText${i + 1}`).textContent = steps[i].text; progressBar.style.width = steps[i].progress + '%';
+                if (i > 0) { 
+                    document.getElementById(`stepDot${i + 1}`).classList.remove('bg-gray-500'); 
+                    document.getElementById(`stepDot${i + 1}`).classList.add('bg-blue-400', 'pulse-dot'); 
+                    document.getElementById(`stepText${i + 1}`).classList.remove('text-gray-400'); 
+                    document.getElementById(`stepText${i + 1}`).classList.add('text-blue-200'); 
+                }
+                document.getElementById(`stepText${i + 1}`).textContent = steps[i].text; 
+                progressBar.style.width = steps[i].progress + '%';
                 await new Promise(r => setTimeout(r, 1000));
-                if (i > 0) { document.getElementById(`stepDot${i}`).classList.remove('bg-blue-400', 'pulse-dot'); document.getElementById(`stepDot${i}`).classList.add('bg-green-400'); document.getElementById(`stepText${i}`).classList.remove('text-blue-200'); document.getElementById(`stepText${i}`).classList.add('text-green-200'); }
+                if (i > 0) { 
+                    document.getElementById(`stepDot${i}`).classList.remove('bg-blue-400', 'pulse-dot'); 
+                    document.getElementById(`stepDot${i}`).classList.add('bg-green-400'); 
+                    document.getElementById(`stepText${i}`).classList.remove('text-blue-200'); 
+                    document.getElementById(`stepText${i}`).classList.add('text-green-200'); 
+                }
             }
             try {
-                const template = templates[selectedTemplate]; const response = await fetch(template.file); let templateHtml = await response.text(); generatedHtml = fillTemplate(templateHtml, websiteData, template.industry);
-                const newWebsite = { id: Date.now(), name: websiteData.companyName || '未命名网站', industry: template.industry, template: selectedTemplate, createdAt: new Date().toISOString(), html: generatedHtml, thumbnail: template.image };
-                recentWebsites.unshift(newWebsite); localStorage.setItem('websites', JSON.stringify(recentWebsites));
-                showPage('previewPage'); document.getElementById('previewFrame').srcdoc = generatedHtml; showNotification('网站生成成功！');
-            } catch (error) { console.error('Error generating website:', error); showNotification('生成网站时出错，请重试', 'error'); showCreateStep(2); }
+                console.log('Selected template:', selectedTemplate);
+                const template = templates[selectedTemplate];
+                console.log('Template file:', template.file);
+                const response = await fetch(template.file);
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch template: ${response.status}`);
+                }
+                
+                let templateHtml = await response.text();
+                console.log('Template loaded, length:', templateHtml.length);
+                
+                generatedHtml = fillTemplate(templateHtml, websiteData, template.industry);
+                console.log('Template filled');
+                
+                const newWebsite = { 
+                    id: Date.now(), 
+                    name: websiteData.companyName || '未命名网站', 
+                    industry: template.industry, 
+                    template: selectedTemplate, 
+                    createdAt: new Date().toISOString(), 
+                    html: generatedHtml, 
+                    thumbnail: template.image 
+                };
+                
+                recentWebsites.unshift(newWebsite); 
+                localStorage.setItem('websites', JSON.stringify(recentWebsites));
+                
+                showPage('previewPage'); 
+                document.getElementById('previewFrame').srcdoc = generatedHtml; 
+                showNotification('网站生成成功！');
+            } catch (error) { 
+                console.error('Error generating website:', error); 
+                showNotification('生成网站时出错，请重试: ' + error.message, 'error'); 
+                showCreateStep(2); 
+            }
         }
         function loadRecentWebsites() {
             const saved = localStorage.getItem('websites'); if (saved) recentWebsites = JSON.parse(saved);
